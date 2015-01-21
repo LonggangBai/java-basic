@@ -10,7 +10,7 @@
 package com.easyway.java.basic.disabuse.basic;
 
 /**
- * 
+ * JAVA面试题解惑系列（二）——到底创建了几个String对象？
  * <pre>
  * 我们首先来看一段代码： 
  * Java代码 复制代码

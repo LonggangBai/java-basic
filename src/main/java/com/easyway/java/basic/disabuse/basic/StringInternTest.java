@@ -10,7 +10,7 @@
 package com.easyway.java.basic.disabuse.basic;
 
 /**
- * 
+ * JAVA面试题解惑系列（二）——到底创建了几个String对象？
  * <pre>
  * 运行结果： 
  * b没被加入字符串池中，新建了对象

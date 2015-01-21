@@ -10,6 +10,7 @@
 package com.easyway.java.basic.disabuse.clazz;
 
 /**
+ * JAVA面试题解惑系列（一）——类的初始化顺序
  * <pre>
  * 运行一下上面的代码，结果马上呈现在我们的眼前： 
  *      父类--静态变量

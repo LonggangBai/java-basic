@@ -10,7 +10,7 @@
 package com.easyway.java.basic.disabuse.basic;
 
 /**
- * 
+ * JAVA面试题解惑系列（二）——到底创建了几个String对象？
  * <pre>
  * 它的运行结果是这样： 
  * s不等于t，它们不是同一个对象
