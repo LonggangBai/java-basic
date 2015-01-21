@@ -7,7 +7,7 @@
  *
  */
 
-package com.easyway.java.basic.disabuse.basic;
+package com.easyway.java.basic.disabuse.string;
 
 /**
  * JAVA面试题解惑系列（二）——到底创建了几个String对象？
