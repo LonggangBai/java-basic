@@ -49,7 +49,22 @@ import java.util.concurrent.Semaphore;
  * 这取决于构造Semaphore对象时传入的参数选项
  * 。单个信号量的Semaphore对象可以实现互斥锁的功能，并且可以是由一个线程获得了“锁”，再由另一个线程释放“锁”，这可应用于死锁恢复的一些场合。
  * 
+ * 
+ * 
+ * 在代码中，虽然有30个线程在执行，但是只允许10个并发的执行。Semaphore的构造方法Semaphore(int permits) 接受一个整型的数字，表示可用的许可证数量。Semaphore(10)表示允许10个线程获取许可证，也就是最大并发数是10。Semaphore的用法也很简单，首先线程使用Semaphore的acquire()获取一个许可证，使用完之后调用release()归还许可证。还可以用tryAcquire()方法尝试获取许可证。
+ * 
+ * 其他方法
+ * 
+ * Semaphore还提供一些其他方法：
+ * 
+ * int availablePermits() ：返回此信号量中当前可用的许可证数。
+ * int getQueueLength()：返回正在等待获取许可证的线程数。
+ * boolean hasQueuedThreads() ：是否有线程正在等待获取许可证。
+ * void reducePermits(int reduction) ：减少reduction个许可证。是个protected方法。
+ * Collection getQueuedThreads() ：返回所有等待获取许可证的线程集合。是个protected方法。
+ * 
  * </pre>
+ * 
  * ClassName:SemaPhoreTest <br/>
  * Function: TODO ADD FUNCTION. <br/>
  * Reason: TODO ADD REASON. <br/>
