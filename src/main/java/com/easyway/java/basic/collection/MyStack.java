@@ -1,5 +1,5 @@
 package com.easyway.java.basic.collection;
-
+import java.lang.reflect.GenericArrayType;
 /**
  * <pre>
  * Java中的锁与排队上厕所。

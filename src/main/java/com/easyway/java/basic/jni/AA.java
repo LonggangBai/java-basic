@@ -61,5 +61,5 @@ package com.easyway.java.basic.jni;
  * 
  */
 public class AA {
-
+	
 }
