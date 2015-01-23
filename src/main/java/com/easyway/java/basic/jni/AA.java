@@ -1,5 +1,7 @@
 package com.easyway.java.basic.jni;
 
+import java.util.concurrent.FutureTask;
+
 /**
  * <pre>
  * 一、概述
@@ -61,5 +63,5 @@ package com.easyway.java.basic.jni;
  * 
  */
 public class AA {
-	
+	FutureTask g;
 }
