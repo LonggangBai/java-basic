@@ -23,6 +23,12 @@ import java.sql.Statement;
  *  由于①处的conn是成员变量，因为addTopic()方法是非线程安全的，必须在使用时创建一个新TopicDao实例（非singleton）。
  *  下面使用ThreadLocal对conn这个非线程安全的“状态”进行改造：
  *  代码清单4 TopicDao：线程安全
+ *  
+ *  Spring中Singleton模式的线程安全
+ *  
+ *  
+ *  
+ *  
  * </pre>
  * 
  * @author Administrator
