@@ -16,50 +16,52 @@ package com.easyway.java.basic.thread;
  *    如果想让代码块和同步方法同步那么 使用的同步对象 必须都为this
  */
 public class ThreadDemo2 {
-    public static void main(String[] args) {
-	MyThread2 mt = new MyThread2();
-	// mt.start() ;
-	new Thread(mt).start();
-	try {
-	    Thread.sleep(10); // 每当产生一个线程CPU不会立马去执行 ，这之间既有一个微小的时间间隔 。
-	} catch (Exception e) {
-	    System.out.println(e.toString());
+	public static void main(String[] args) {
+		MyThread2 mt = new MyThread2();
+		// mt.start() ;
+		new Thread(mt).start();
+		try {
+			Thread.sleep(10); // 每当产生一个线程CPU不会立马去执行 ，这之间既有一个微小的时间间隔 。
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		mt.str = "method";
+		new Thread(mt).start();
 	}
-	mt.str = "method";
-	new Thread(mt).start();
-    }
 }
 
 class MyThread2 implements Runnable// extends Thread
 {
-    int tickets = 100;
-    String str = new String("");
+	int tickets = 100;
+	String str = new String("");
 
-    public void run() {
-	if (str.equals("method")) {
-	    while (true) {
-		running();
-	    }
-	} else {
-	    while (true) {
-		synchronized (str) {
-		    if (tickets > 0) {
-			System.out.println("block:" + Thread.currentThread().getName() + "sells" + tickets--);
-		    }
+	public void run() {
+		if (str.equals("method")) {
+			while (true) {
+				running();
+			}
+		} else {
+			while (true) {
+				synchronized (str) {
+					if (tickets > 0) {
+						System.out.println("block:"
+								+ Thread.currentThread().getName() + "sells"
+								+ tickets--);
+					}
+				}
+
+			}
 		}
-
-	    }
 	}
-    }
 
-    public synchronized void running() {
-	if (tickets > 0) {
-	    try {
-		Thread.sleep(10);
-	    } catch (Exception ex) {
-	    }
-	    System.out.print("method：");
-	    System.out.println(Thread.currentThread() + "sell " + tickets--);
+	public synchronized void running() {
+		if (tickets > 0) {
+			try {
+				Thread.sleep(10);
+			} catch (Exception ex) {
+			}
+			System.out.print("method：");
+			System.out.println(Thread.currentThread() + "sell " + tickets--);
+		}
 	}
-    }
 }

@@ -2,6 +2,7 @@
  * 
  */
 package com.easyway.java.basic.thread;
+
 /*
  *   java多线程中 有前台线程和后台线程，前台线程 是指 main所在的主线程 和其他 创建的线程 ,如果在线程调用start 之前调用  setDeamon(true)
  *   那么 这个线程就是一个后台线程,在进程中如果没有一个前台线程 那么后台线程也随之退出,从而进程也退出 。如果没有调用setDeamon(true)或者
@@ -15,32 +16,32 @@ package com.easyway.java.basic.thread;
  *
  */
 public class ThreadDemo1 {
-    public static void main(String[] args) {
-	// MyThread tt=new MyThread() ; tt.start() ;可以从 Thread类派生一个线程类
-	Thread tt = new Thread(new MyThread1()); // 可以通过Thread类的带参数的构造方法
-						 // 传递一个实现了Runnable接口的对象
-	// tt.setDaemon(true) ;//将线程设置为 后台线程 主线层退出这个线程也会随着退出
-	tt.start();
-	int index = 0;
-	while (true) {
-	    if (index++ == 100)
-		try {
-		    tt.join(5000);
-		} catch (Exception ex) {
-		    System.out.println(ex.toString());
-		}
+	public static void main(String[] args) {
+		// MyThread tt=new MyThread() ; tt.start() ;可以从 Thread类派生一个线程类
+		Thread tt = new Thread(new MyThread1()); // 可以通过Thread类的带参数的构造方法
+		// 传递一个实现了Runnable接口的对象
+		// tt.setDaemon(true) ;//将线程设置为 后台线程 主线层退出这个线程也会随着退出
+		tt.start();
+		int index = 0;
+		while (true) {
+			if (index++ == 100)
+				try {
+					tt.join(5000);
+				} catch (Exception ex) {
+					System.out.println(ex.toString());
+				}
 
-	    System.out.println("run:" + Thread.currentThread().getName());
+			System.out.println("run:" + Thread.currentThread().getName());
+		}
 	}
-    }
 
 }
 
 class MyThread1 implements Runnable// extends Thread
 {
-    public void run() {
-	while (true) {
-	    System.out.println("run:" + Thread.currentThread().getName());
+	public void run() {
+		while (true) {
+			System.out.println("run:" + Thread.currentThread().getName());
+		}
 	}
-    }
 }
