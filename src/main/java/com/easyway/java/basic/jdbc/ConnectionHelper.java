@@ -192,7 +192,7 @@ public class ConnectionHelper {
 	 * @throws Exception
 	 * @since JDK 1.6
 	 */
-	private  Connection getConnection() throws Exception {
+	public  Connection getConnection() throws Exception {
 		Connection conn = null;
 		if (currentConnection.get() == null) {
 			conn = getConn();
