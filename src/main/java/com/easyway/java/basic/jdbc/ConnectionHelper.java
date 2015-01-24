@@ -26,7 +26,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * <pre>
  * JDBC连接数据库    
@@ -151,303 +150,296 @@ import org.slf4j.LoggerFactory;
  * @see
  */
 public class ConnectionHelper {
-    private final static Logger Logger = LoggerFactory.getLogger(ConnectionHelper.class);
-    private static ConnectionHelper _connectionHelper = null;
+	private final static Logger Logger = LoggerFactory
+			.getLogger(ConnectionHelper.class);
+	private static ConnectionHelper _connectionHelper = null;
+	private final ThreadLocal<Connection> currentConnection = new ThreadLocal<Connection>();
 
+	private ConnectionHelper() {
+	}
 
-    private ConnectionHelper() {
-    }
+	/**
+	 * 采用单利模式的双重检查实现 getConnectionHelper:(这里用一句话描述这个方法的作用). <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @return
+	 * @since JDK 1.6
+	 */
+	public static ConnectionHelper getConnectionHelper() {
+		if (_connectionHelper != null) {// Single check
+			synchronized (ConnectionHelper.class) {
+				if (_connectionHelper != null) { // Double Single check
+					_connectionHelper = new ConnectionHelper();
+				}
+			}
+		}
+		return _connectionHelper;
+	}
 
+	/**
+	 * initConnection:用于创建数据库连接. <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @return
+	 * @throws Exception
+	 * @since JDK 1.6
+	 */
+	private  Connection getConnection() throws Exception {
+		Connection conn = null;
+		if (currentConnection.get() == null) {
+			conn = getConn();
+			if (conn != null) {
+				currentConnection.set(conn);
+			}
+		} else {
+			conn = currentConnection.get();
+		}
+		return conn;
+	}
 
-    /**
-     * 采用单利模式的双重检查实现 getConnectionHelper:(这里用一句话描述这个方法的作用). <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @return
-     * @since JDK 1.6
-     */
-    public static ConnectionHelper getConnectionHelper() {
-        if (_connectionHelper != null) {// Single check
-            synchronized (ConnectionHelper.class) {
-                if (_connectionHelper != null) { // Double Single check
-                    _connectionHelper = new ConnectionHelper();
-                }
-            }
-        }
-        return _connectionHelper;
-    }
+	private synchronized Connection getConn() throws Exception {
+		try {
+			// 加载MySql的驱动类
+			Class.forName(Config.DRIVERCLASS);
+			// 连接MySql数据库，用户名和密码都是root
+			Connection connection = DriverManager.getConnection(Config.URL,
+					Config.USERNAME, Config.PASSWD);
+			return connection;
+		} catch (SQLException se) {
+			Logger.error("获取数据库连接失败..." + se.getMessage());
+			se.printStackTrace();
+			throw new Exception(se);
+		} catch (ClassNotFoundException e) {
+			Logger.error("数据库连接失败！" + e.getMessage());
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+	}
 
+	/**
+	 * 
+	 * executeUpdate:根据一条sql语句更新 <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param sql
+	 * @return
+	 * @since JDK 1.6
+	 */
+	public int executeUpdate(String sql) {
+		Connection conn = null;
+		Statement smst = null;
+		try {
+			conn = getConnection();
+			smst = conn.createStatement();
+			return smst.executeUpdate(sql);
+		} catch (Exception e) {
+			Logger.error("数据库查询失败..." + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			close(conn, smst, null);
+		}
+		return -1;
+	}
 
-    /**
-     * initConnection:用于创建数据库连接. <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @return
-     * @throws Exception
-     * @since JDK 1.6
-     */
-    private Connection getConnection() throws Exception {
-        try {
-            // 加载MySql的驱动类
-            Class.forName(Config.DRIVERCLASS);
-            // 连接MySql数据库，用户名和密码都是root
-            Connection connection = DriverManager.getConnection(Config.URL, Config.USERNAME, Config.PASSWD);
-            return connection;
-        }
-        catch (SQLException se) {
-            Logger.error("获取数据库连接失败..." + se.getMessage());
-            se.printStackTrace();
-            throw new Exception(se);
-        }
-        catch (ClassNotFoundException e) {
-            Logger.error("数据库连接失败！" + e.getMessage());
-            e.printStackTrace();
-            throw new Exception(e);
-        }
-    }
+	/**
+	 * 
+	 * findById: 根据sql查询一条记录 <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param sql
+	 * @return
+	 * @since JDK 1.6
+	 */
+	public Map<String, String> findById(String sql) {
+		Connection conn = null;
+		Statement smst = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			smst = conn.createStatement();
+			rs = smst.executeQuery(sql);
+			// 获取表的表的列头部
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			String[] headerNames = getTableHeaderName(rsmeta);
+			// 获取数据
+			Map<String, String> paramMap = new HashMap<String, String>();
+			List<Map<String, String>> resultMapColl = getResultMapList(rs,
+					headerNames, paramMap);
+			if (resultMapColl != null) {
+				return resultMapColl.get(0);
+			}
+			return null;
+		} catch (Exception e) {
+			Logger.error("数据库查询失败..." + e.getMessage());
+			e.printStackTrace();
 
+		} finally {
+			close(conn, smst, rs);
+		}
+		return null;
+	}
 
-    /**
-     * 
-     * executeUpdate:根据一条sql语句更新 <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param sql
-     * @return
-     * @since JDK 1.6
-     */
-    public int executeUpdate(String sql) {
-        Connection conn = null;
-        Statement smst = null;
-        try {
-            conn = getConnection();
-            smst = conn.createStatement();
-            return smst.executeUpdate(sql);
-        }
-        catch (Exception e) {
-            Logger.error("数据库查询失败..." + e.getMessage());
-            e.printStackTrace();
-        }
-        finally {
-            close(conn, smst, null);
-        }
-        return -1;
-    }
+	/**
+	 * 
+	 * execute:查询数据列表信息 <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param sql
+	 * @return
+	 * @throws Exception
+	 * @since JDK 1.6
+	 */
+	public Collection<Map<String, String>> execute(String sql) throws Exception {
+		Connection conn = null;
+		Statement smst = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			smst = conn.createStatement();
+			rs = smst.executeQuery(sql);
+			// 获取表的表的列头部
+			ResultSetMetaData rsmeta = rs.getMetaData();
+			String[] headerNames = getTableHeaderName(rsmeta);
+			// 获取数据
+			Map<String, String> paramMap = new HashMap<String, String>();
+			return getResultMapList(rs, headerNames, paramMap);
+		} catch (Exception e) {
+			Logger.error("数据库查询失败..." + e.getMessage());
+			e.printStackTrace();
 
+		} finally {
+			close(conn, smst, rs);
+		}
+		return null;
+	}
 
-    /**
-     * 
-     * findById: 根据sql查询一条记录 <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param sql
-     * @return
-     * @since JDK 1.6
-     */
-    public Map<String, String> findById(String sql) {
-        Connection conn = null;
-        Statement smst = null;
-        ResultSet rs = null;
-        try {
-            conn = getConnection();
-            smst = conn.createStatement();
-            rs = smst.executeQuery(sql);
-            // 获取表的表的列头部
-            ResultSetMetaData rsmeta = rs.getMetaData();
-            String[] headerNames = getTableHeaderName(rsmeta);
-            // 获取数据
-            Map<String, String> paramMap = new HashMap<String, String>();
-            List<Map<String, String>> resultMapColl = getResultMapList(rs, headerNames, paramMap);
-            if (resultMapColl != null) {
-                return resultMapColl.get(0);
-            }
-            return null;
-        }
-        catch (Exception e) {
-            Logger.error("数据库查询失败..." + e.getMessage());
-            e.printStackTrace();
+	public boolean executeQuery(String sql, Object... params) throws Exception {
+		Connection conn = getConnection();
+		PreparedStatement psmst = conn.prepareStatement(sql);
+		if (params != null && params.length > 0) {
+			for (int parameterIndex = 0; parameterIndex < params.length; parameterIndex++) {
+				Object object = params[parameterIndex];
+				if (object instanceof String) {
+					psmst.setString(parameterIndex, String.valueOf(object));
+				} else if (object instanceof Double) {
+					psmst.setDouble(parameterIndex, (Double) object);
+				} else if (object instanceof Long) {
+					psmst.setLong(parameterIndex, (Long) object);
+				} else if (object instanceof Date) {
+					psmst.setDate(parameterIndex, (Date) object);
+				} else if (object instanceof Integer) {
+					psmst.setInt(parameterIndex, (Integer) object);
+				} else if (object instanceof Short) {
+					psmst.setInt(parameterIndex, (Short) object);
+				}
+			}
+		}
+		return psmst.execute();
+	}
 
-        }
-        finally {
-            close(conn, smst, rs);
-        }
-        return null;
-    }
+	/**
+	 * close:(这里用一句话描述这个方法的作用). <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param conn
+	 * @param smst
+	 * @param rs
+	 * @since JDK 1.6
+	 */
+	private void close(Connection conn, Statement smst, ResultSet rs) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (smst != null) {
+			try {
+				smst.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
+	/**
+	 * getResultMapList:(这里用一句话描述这个方法的作用). <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param rs
+	 * @param headerNames
+	 * @param paramMap
+	 * @throws SQLException
+	 * @since JDK 1.6
+	 */
+	private List<Map<String, String>> getResultMapList(ResultSet rs,
+			String[] headerNames, Map<String, String> paramMap)
+			throws SQLException {
+		List<Map<String, String>> resultMapList = new ArrayList<Map<String, String>>();
+		while (rs.next()) {
+			for (String columnName : headerNames) {
+				paramMap.put(columnName, rs.getString(columnName));
+			}
+		}
+		return resultMapList;
+	}
 
-    /**
-     * 
-     * execute:查询数据列表信息 <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param sql
-     * @return
-     * @throws Exception
-     * @since JDK 1.6
-     */
-    public Collection<Map<String, String>> execute(String sql) throws Exception {
-        Connection conn = null;
-        Statement smst = null;
-        ResultSet rs = null;
-        try {
-            conn = getConnection();
-            smst = conn.createStatement();
-            rs = smst.executeQuery(sql);
-            // 获取表的表的列头部
-            ResultSetMetaData rsmeta = rs.getMetaData();
-            String[] headerNames = getTableHeaderName(rsmeta);
-            // 获取数据
-            Map<String, String> paramMap = new HashMap<String, String>();
-            return getResultMapList(rs, headerNames, paramMap);
-        }
-        catch (Exception e) {
-            Logger.error("数据库查询失败..." + e.getMessage());
-            e.printStackTrace();
-
-        }
-        finally {
-            close(conn, smst, rs);
-        }
-        return null;
-    }
-
-
-    public boolean executeQuery(String sql, Object... params) throws Exception {
-        Connection conn = getConnection();
-        PreparedStatement psmst = conn.prepareStatement(sql);
-        if (params != null && params.length > 0) {
-            for (int parameterIndex = 0; parameterIndex < params.length; parameterIndex++) {
-                Object object = params[parameterIndex];
-                if (object instanceof String) {
-                    psmst.setString(parameterIndex, String.valueOf(object));
-                }
-                else if (object instanceof Double) {
-                    psmst.setDouble(parameterIndex, (Double)object);
-                }
-                else if (object instanceof Long) {
-                   psmst.setLong(parameterIndex, (Long)object);
-                }
-                else if (object instanceof Date) {
-                    psmst.setDate(parameterIndex, (Date)object);
-                }
-                else if (object instanceof Integer) {
-                    psmst.setInt(parameterIndex, (Integer)object);
-                }
-                else if (object instanceof Short) {
-                    psmst.setInt(parameterIndex, (Short)object);
-                }
-            }
-        }
-        return psmst.execute();
-    }
-
-
-    /**
-     * close:(这里用一句话描述这个方法的作用). <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param conn
-     * @param smst
-     * @param rs
-     * @since JDK 1.6
-     */
-    private void close(Connection conn, Statement smst, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (smst != null) {
-            try {
-                smst.close();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-            }
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
-     * getResultMapList:(这里用一句话描述这个方法的作用). <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param rs
-     * @param headerNames
-     * @param paramMap
-     * @throws SQLException
-     * @since JDK 1.6
-     */
-    private List<Map<String, String>> getResultMapList(ResultSet rs, String[] headerNames, Map<String, String> paramMap)
-            throws SQLException {
-        List<Map<String, String>> resultMapList = new ArrayList<Map<String, String>>();
-        while (rs.next()) {
-            for (String columnName : headerNames) {
-                paramMap.put(columnName, rs.getString(columnName));
-            }
-        }
-        return resultMapList;
-    }
-
-
-    /**
-     * getTableHeaderName:(这里用一句话描述这个方法的作用). <br/>
-     * TODO(这里描述这个方法适用条件 – 可选).<br/>
-     * TODO(这里描述这个方法的执行流程 – 可选).<br/>
-     * TODO(这里描述这个方法的使用方法 – 可选).<br/>
-     * TODO(这里描述这个方法的注意事项 – 可选).<br/>
-     * 
-     * @author Administrator
-     * @param rsmeta
-     * @throws SQLException
-     * @since JDK 1.6
-     */
-    private String[] getTableHeaderName(ResultSetMetaData rsmeta) throws SQLException {
-        int columnCount = rsmeta.getColumnCount();
-        String[] headerNames = new String[columnCount];
-        for (int i = 0; i < columnCount; i++) {
-            headerNames[i] = rsmeta.getColumnName(i);
-        }
-        return headerNames;
-    }
+	/**
+	 * getTableHeaderName:(这里用一句话描述这个方法的作用). <br/>
+	 * TODO(这里描述这个方法适用条件 – 可选).<br/>
+	 * TODO(这里描述这个方法的执行流程 – 可选).<br/>
+	 * TODO(这里描述这个方法的使用方法 – 可选).<br/>
+	 * TODO(这里描述这个方法的注意事项 – 可选).<br/>
+	 * 
+	 * @author Administrator
+	 * @param rsmeta
+	 * @throws SQLException
+	 * @since JDK 1.6
+	 */
+	private String[] getTableHeaderName(ResultSetMetaData rsmeta)
+			throws SQLException {
+		int columnCount = rsmeta.getColumnCount();
+		String[] headerNames = new String[columnCount];
+		for (int i = 0; i < columnCount; i++) {
+			headerNames[i] = rsmeta.getColumnName(i);
+		}
+		return headerNames;
+	}
 
 }
