@@ -1,4 +1,4 @@
-package com.easyway.java.basic.xml;
+package com.easyway.java.basic.xml.dom;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,17 +19,17 @@ import org.xml.sax.SAXException;
  * @author Administrator
  * 
  */
-public class DOMTest {
+public class DOMParser {
 
 	/* build a DocumentBuilderFactory */
 	DocumentBuilderFactory builderFactory = DocumentBuilderFactory
 			.newInstance();
 
 	public static void main(String[] args) {
-		String xmlfile = DOMTest.class.getClassLoader()
+		String xmlfile = DOMParser.class.getClassLoader()
 				.getResource("./books.xml").getFile();
 		System.out.println("xmlfile=" + xmlfile);
-		DOMTest parser = new DOMTest();
+		DOMParser parser = new DOMParser();
 		Document document = parser.parse(xmlfile);
 		/* get root element */
 		Element rootElement = document.getDocumentElement();
