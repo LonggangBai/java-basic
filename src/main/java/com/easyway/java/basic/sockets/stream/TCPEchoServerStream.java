@@ -1,4 +1,4 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.stream;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

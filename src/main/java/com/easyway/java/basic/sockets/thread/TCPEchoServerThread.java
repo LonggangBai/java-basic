@@ -1,4 +1,4 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.thread;
 
 import java.io.IOException;
 import java.net.ServerSocket;

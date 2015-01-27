@@ -1,4 +1,4 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.tcp;
 
 
 import java.io.IOException;
