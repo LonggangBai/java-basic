@@ -3,9 +3,26 @@ package com.easyway.java.basic.strings;
 import java.util.StringTokenizer;
 
 import java.util.Arrays;
+/**
+ * String 和StringBuffer的区别
+ * <pre>
+ * JAVA平台提供了两个类：String和StringBuffer，它们可以储存和操作字符串，即包含多个字符的字符数据。
+ * 这个String类提供了数 值不可改变的字符串。而这个StringBuffer类提供的字符串进行修改。当你知道字符数
+ * 据要改变的时候你就可以使用StringBuffer。典型 地，你可以使用StringBuffers来动态构造字符数据。
+ * </pre>
+ * @author Administrator
+ *
+ */
+public class StringTokenizerSplit {
 
-public class StringTokenizerSplit
-{
+	public static String reverse(String s) {
+		int length = s.length();
+		StringBuffer result = new StringBuffer(length);
+		for (int i = length - 1; i >= 0; i--) {
+			result.append(s.charAt(i));
+		}
+		return result.toString();
+	}
 
 	public static void main(String[] args)
 

@@ -8,8 +8,7 @@ import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.Properties;
 
-
-import com.easyway.java.basic.io.Resource;
+import com.easyway.java.basic.io.spring.Resource;
 import com.easyway.java.basic.reflect.ClassUtils;
 
 

@@ -3,42 +3,97 @@ package com.easyway.java.basic.executors;
 import java.util.concurrent.CyclicBarrier;
 
 /**
+ * 介绍一下Java语言中线程同步?
+ * 
+ * <pre>
+ * 线程的同步
+ * 原子操作：根据Java规范，对于基本类型的赋值或者返回值操作，是原子操作。但这里的基本数据类型不包括long和double, 因为JVM看到的基本存储单位是32位，
+ * 而long 和double都要用64位来表示。所以无法在一个时钟周期内完成。
+ * 
+ * 自增操作（++）不是原子操作，因为它涉及到一次读和一次写。
+ * 
+ * 原子操作：由一组相关的操作完成，这些操作可能会操纵与其它的线程共享的资源，为了保证得到正确的运算结果，一个线程在执行原子操作其间，应该采取其他的措施使得其
+ * 他的线程不能操纵共享资源。
+ * 
+ * 同步代码块：为了保证每个线程能够正常执行原子操作，Java引入了同步机制，具体的做法是在代表原子操作的程序代码前加上synchronized标记，这样的代码被称为同步代码块。
+ * 
+ * 同步锁：每个JAVA对象都有且只有一个同步锁，在任何时刻，最多只允许一个线程拥有这把锁。
+ * 
+ * 当一个线程试图访问带有synchronized(this)标记的代码块时，必须获得 this关键字引用的对象的锁，在以下的两种情况下，本线程有着不同的命运。
+ * 1、 假如这个锁已经被其它的线程占用，JVM就会把这个线程放到本对象的锁池中。本线程进入阻塞状态。锁池中可能有很多的线程，等到其他的线程释放了锁，JVM就会从
+ * 锁池中随机取出一个线程，使这个线程拥有锁，并且转到就绪状态。
+ * 2、 假如这个锁没有被其他线程占用，本线程会获得这把锁，开始执行同步代码块。 （一般情况下在执行同步代码块时不会释放同步锁，但也有特殊情况会释放对象锁 如在执
+ * 行同步代码块时，遇到异常而导致线程终止，锁会被释放；在执行代码块时，执行了锁所属对象的wait()方法，这个线程会释放对象锁，进入对象的等 待池中）
+ * 
+ * 线程同步的特征：
+ * 1、 如果一个同步代码块和非同步代码块同时操作共享资源，仍然会造成对共享资源的竞争。因为当一个线程执行一个对象的同步代码块时，其他的线程仍然可以执行对 象的
+ * 非同步代码块。（所谓的线程之间保持同步，是指不同的线程在执行同一个对象的同步代码块时，因为要获得对象的同步锁而互相牵制）
+ * 2、 每个对象都有唯一的同步锁
+ * 3、 在静态方法前面可以使用synchronized修饰符。
+ * 4、 当一个线程开始执行同步代码块时，并不意味着必须以不间断的方式运行，进入同步代码块的线程可以执行Thread.sleep()或执行Thread.yield()方法，此时它并
+ * 不释放对象锁，只是把运行的机会让给其他的线程。
+ * 5、 Synchronized声明不会被继承，如果一个用synchronized修饰的方法被子类覆盖，那么子类中这个方法不在保持同步，除非用synchronized修饰。
+ * 
+ * 线程安全的类：
+ * 1、 这个类的对象可以同时被多个线程安全的访问。
+ * 2、 每个线程都能正常的执行原子操作，得到正确的结果。
+ * 3、 在每个线程的原子操作都完成后，对象处于逻辑上合理的状态。
+ * 
+ * 释放对象的锁：
+ * 1、 执行完同步代码块就会释放对象的锁
+ * 2、 在执行同步代码块的过程中，遇到异常而导致线程终止，锁也会被释放
+ * 3、 在执行同步代码块的过程中，执行了锁所属对象的wait()方法，这个线程会释放对象锁，进入对象的等待池。
+ * 
+ * 死锁
+ * 当一个线程等待由另一个线程持有的锁，而后者正在等待已被第一个线程持有的锁时，就会发生死锁。JVM不监测也不试图避免这种情况，因此保证不发生死锁就成了程序员的责任。
+ * 
+ * 如何避免死锁
+ * 一个通用的经验法则是：当几个线程都要访问共享资源A、B、C 时，保证每个线程都按照同样的顺序去访问他们。
+ * 
+ * 线程通信
+ * Java.lang.Object类中提供了两个用于线程通信的方法
+ * 1、 wait():执行了该方法的线程释放对象的锁，JVM会把该线程放到对象的等待池中。该线程等待其它线程唤醒
+ * 2、 notify():执行该方法的线程唤醒在对象的等待池中等待的一个线程，JVM从对象的等待池中随机选择一个线程，把它转到对象的锁池中。
+ * 
+ * </pre>
+ * 
  * CycliBarrier. 等所有线程都达到一个起跑线后才能开始继续运行。
  * 
  * 这简化了传统的用计数器+wait/notifyAll来实现该功能的方式。
+ * 
  * @author Administrator
- *
+ * 
  */
 public class CycliBarrierTest implements Runnable {
-    private CyclicBarrier barrier;
+	private CyclicBarrier barrier;
 
-    public CycliBarrierTest(CyclicBarrier barrier) {
-        this.barrier = barrier;
-    }
+	public CycliBarrierTest(CyclicBarrier barrier) {
+		this.barrier = barrier;
+	}
 
-    public void run() {
-        //do xxxx;
-        try {
-            this.barrier.await();//线程运行至此会检查是否其它线程都到齐了，没到齐就继续等待。到齐了就执行barrier的run函数体里的内容
-        } catch (Exception e) {
+	public void run() {
+		// do xxxx;
+		try {
+			this.barrier.await();// 线程运行至此会检查是否其它线程都到齐了，没到齐就继续等待。到齐了就执行barrier的run函数体里的内容
+		} catch (Exception e) {
 
-        }
-    }
+		}
+	}
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        //参数2代表两个线程都达到起跑线才开始一起继续往下执行
-        CyclicBarrier barrier = new CyclicBarrier(2, new Runnable() {
-                public void run() {
-                    //do xxxx;
-                }
-            });
-        Thread t1 = new Thread(new CycliBarrierTest(barrier));         
-        Thread t2 = new Thread(new CycliBarrierTest(barrier));
-        t1.start();
-        t2.start();
-    }
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// 参数2代表两个线程都达到起跑线才开始一起继续往下执行
+		CyclicBarrier barrier = new CyclicBarrier(2, new Runnable() {
+			public void run() {
+				// do xxxx;
+			}
+		});
+		Thread t1 = new Thread(new CycliBarrierTest(barrier));
+		Thread t2 = new Thread(new CycliBarrierTest(barrier));
+		t1.start();
+		t2.start();
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.easyway.java.basic.io;
+package com.easyway.java.basic.io.spring;
 
 
 import java.io.IOException;

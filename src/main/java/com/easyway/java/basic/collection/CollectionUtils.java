@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 
 import com.easyway.java.basic.utils.ObjectUtils;
@@ -480,5 +481,71 @@ public abstract class CollectionUtils {
 			return this.map.toString();
 		}
 	}
+	 /**
+     * 将Set转换为List的工具类
+     * 
+     * @param colSetList
+     * @return
+     */
+    public static <T> List<T> asList(Set<T> colSetList) {
+	List<T> tmp = new ArrayList<T>();
+	if (colSetList != null) {
+	    tmp.addAll(colSetList);
+	}
+	return tmp;
+    }
+
+    public static String substr(String str, int length) {
+	if (StringUtils.isNotEmpty(str)) {
+	    return str.length() > 10 ? str.substring(0, length) : str;
+	}
+	return null;
+    }
+
+    /**
+     * 生成6为随机数
+     * 
+     * @return
+     */
+    public static String randomNumber() {
+	int[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	Random rand = new Random();
+	for (int i = 10; i > 1; i--) {
+	    int index = rand.nextInt(i);
+	    int tmp = array[index];
+	    array[index] = array[i - 1];
+	    array[i - 1] = tmp;
+	}
+	int result = 0;
+	for (int i = 0; i < 6; i++) {
+	    result = result * 10 + array[i];
+	}
+	return String.valueOf(result);
+    }
+
+    // 流水号加1后返回
+    public static String formateAddPrx(String oldnumber) {
+	Integer intHao = Integer.parseInt(oldnumber);
+	intHao++;
+	String newNumber = intHao.toString();
+	if (newNumber.length() < oldnumber.length()) {
+	    oldnumber = "0" + oldnumber;
+	}
+	return oldnumber;
+    }
+
+    public static void main(String[] args) {
+    }
+
+    /**
+     * @param departuredateStr
+     * @param string
+     * @param string2
+     * @return
+     */
+    private static String formatNewPattern(String departuredateStr, String string, String string2) {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
 }
