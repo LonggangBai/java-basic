@@ -1,6 +1,11 @@
 package com.easyway.java.basic.sync;
 
 /**
+ * 简述synchronized和java.util.concurrent.locks.Lock的异同 ?
+ * 主要相同点：Lock能完成synchronized所实现的所有功能
+ * 主要不同点：Lock有比synchronized更精确的线程语义和更好的性能。synchronized会自动释放锁
+ * ，而Lock一定要求程序员手工释放，并且必须在finally从句中释放。
+ * 
  * <pre>
  *  Java中的锁与排队上厕所。
  * 锁就是阻止其它进程或线程进行资源访问的一种方式，即锁住的资源不能被其它请求访问。在JAVA中，sychronized关键字用来对一个对象加锁。比如:
