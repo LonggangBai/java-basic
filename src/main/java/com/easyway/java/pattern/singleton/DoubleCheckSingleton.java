@@ -39,6 +39,7 @@ package com.easyway.java.pattern.singleton;
  * ，也教授了并发是如何引入一些微妙错误的。正如之前所说，这是面试中非常重要的一点。在去参加任何Java面试之前，要练习手写双重检查锁实现单例类
  * 。这将增强你发现Java程序员们所犯编码错误的洞察力。另外，在现在的测试驱动开发中，单例模式由于难以被模拟其行为而被视为反模式（anti
  * pattern），所以如果你是测试驱动开发的开发者，最好避免使用单例模式。 Function: TODO ADD FUNCTION. <br/>
+ * 　注意：在java1.4及以前版本中，很多JVM对于volatile关键字的实现的问题，会导致“双重检查加锁”的失败，因此“双重检查加锁”机制只只能用在java5及以上的版本。
  * Reason: TODO ADD REASON(可选). <br/>
  * date: 2015-1-20 下午4:58:42 <br/>
  * 
