@@ -1,4 +1,4 @@
-package com.easyway.java.basic.pattern.singleton;
+package com.easyway.java.pattern.singleton;
 
 public class Singleton {
 	private static Singleton instance = null;

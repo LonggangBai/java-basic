@@ -41,13 +41,9 @@
 			<artifactId>json</artifactId>
 			<version>20090211</version>
 		</dependency>
-			<!-- 
-		  apache
-		 -->
-		 
-		<!-- 
-		  google
-		 -->
+		<!-- apache -->
+
+		<!-- google -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -117,6 +113,23 @@
 			<version>17.0</version>
 		</dependency>
 
+		<!-- db -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.2.142</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.8.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.5.3.0_1</version>
+		</dependency>
 
 
 		<dependency>

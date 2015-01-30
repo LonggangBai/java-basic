@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.easyway.java.basic.pattern.singleton;
+package com.easyway.java.pattern.singleton;
 
 /**
  * A journey to write double checked locking of Singleton class in Java.
