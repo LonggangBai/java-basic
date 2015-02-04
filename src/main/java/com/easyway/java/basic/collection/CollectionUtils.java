@@ -17,6 +17,8 @@ import java.util.Random;
 import java.util.Set;
 
 import com.easyway.java.basic.utils.ObjectUtils;
+import com.easyway.java.basic.utils.StringUtil;
+import com.easyway.java.basic.utils.StringUtils;
 
 /**
  * Miscellaneous collection utility methods.
@@ -496,7 +498,7 @@ public abstract class CollectionUtils {
     }
 
     public static String substr(String str, int length) {
-	if (StringUtils.isNotEmpty(str)) {
+	if (!StringUtil.isEmpty(str)) {
 	    return str.length() > 10 ? str.substring(0, length) : str;
 	}
 	return null;

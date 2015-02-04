@@ -1,9 +1,15 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.vote.binary;
 
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.easyway.java.basic.sockets.vote.Framer;
+import com.easyway.java.basic.sockets.vote.LengthFramer;
+import com.easyway.java.basic.sockets.vote.VoteMsg;
+import com.easyway.java.basic.sockets.vote.VoteMsgCoder;
+import com.easyway.java.basic.sockets.vote.VoteService;
 
 
 public class VoteTCPBinaryServer

@@ -1,4 +1,4 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.vote;
 
 import java.io.DataInputStream;
 import java.io.EOFException;

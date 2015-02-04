@@ -1,6 +1,5 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.nio;
 
-package com.suifeng.tcpip.chapter5;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

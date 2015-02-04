@@ -1,12 +1,15 @@
-package com.easyway.java.basic.sockets;
+package com.easyway.java.basic.sockets.vote.udp;
 
-package com.suifeng.tcpip.chapter3.vote;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
+
+import com.easyway.java.basic.sockets.vote.VoteMsg;
+import com.easyway.java.basic.sockets.vote.VoteMsgCoder;
+import com.easyway.java.basic.sockets.vote.text.VoteMsgTextCoder;
 
 /**
  * UDP 客户端

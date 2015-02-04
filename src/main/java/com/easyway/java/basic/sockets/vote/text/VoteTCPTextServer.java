@@ -1,16 +1,15 @@
-package com.easyway.java.basic.sockets.text;
+package com.easyway.java.basic.sockets.vote.text;
 
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.easyway.java.basic.sockets.Framer;
-import com.easyway.java.basic.sockets.LengthFramer;
-import com.easyway.java.basic.sockets.VoteMsg;
-import com.easyway.java.basic.sockets.VoteMsgCoder;
-import com.easyway.java.basic.sockets.VoteMsgTextCoder;
-import com.easyway.java.basic.sockets.VoteService;
+import com.easyway.java.basic.sockets.vote.Framer;
+import com.easyway.java.basic.sockets.vote.LengthFramer;
+import com.easyway.java.basic.sockets.vote.VoteMsg;
+import com.easyway.java.basic.sockets.vote.VoteMsgCoder;
+import com.easyway.java.basic.sockets.vote.VoteService;
 
 
 public class VoteTCPTextServer

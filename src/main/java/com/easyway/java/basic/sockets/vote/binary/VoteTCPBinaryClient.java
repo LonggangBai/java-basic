@@ -7,8 +7,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.suifeng.tcpip.chapter3.framer.Framer;
-import com.suifeng.tcpip.chapter3.framer.LengthFramer;
+import com.easyway.java.basic.sockets.vote.Framer;
+import com.easyway.java.basic.sockets.vote.LengthFramer;
+import com.easyway.java.basic.sockets.vote.VoteMsg;
+import com.easyway.java.basic.sockets.vote.VoteMsgCoder;
+
 
 public class VoteTCPBinaryClient
 {
