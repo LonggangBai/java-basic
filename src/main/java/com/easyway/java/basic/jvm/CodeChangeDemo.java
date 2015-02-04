@@ -43,6 +43,28 @@ package com.easyway.java.basic.jvm;
  * 参考文献：
  * 1.《深入理解JVM虚拟机》
  * 2.http://ifeve.com/java-memory-model-1/
+ * 
+ * 之前总是觉得掌握了Java的垃圾回收机制，但稍微讨论下，就发现自己了解的不够全面，现在重新整理一下，感觉还是不错： 
+ * 
+ * Java 垃圾回收
+ * 关于finalizer(): 
+ * 用于清理非正常开启的内存，一般情况下，只有你用native code时候，打开了内存区域，然后在finalizer方法里面进行关闭清理，但一般都不推荐这么做。打开了内存，不用就自己写方法关闭， finalize只用来检测bug，非正常的关闭，需要给出warning.
+ * System.gc()的时候，会调用所有需要清理的对象的finalize方法，但这个时候并不会马上就开始清理， 需要等到jvm认为能够开始清理的时候，才会清理。过后，会将这些调用过finalize方法的对象全部清理掉。
+ * System.gc的作用，在执行的时候， 会调用所有未清理对象的finalize方法， 这个时候并不会进行清理。 真正什么时候清理，由jvm自行决定。  
+ * 如果没有gc, jvm清理的时候，它会先调用其finalize方法，然后再清理，  但不会清理所有的对象。 
+ * jvm内存的使用方式： 
+ * jvm在堆里面分配内存给对象，但是其速度很快。  在堆栈里面放置引用。 
+ * jvm占据的内存会采用带状，分块的模式。一条很长的内存带，带子上分很多块。 
+ * 每次分配对象内存的时候，就取一个块，在带子上移动一格，分配给这个对象。 相比较c++的管理，减少了查询可用空间的步骤和时间。 
+ * 引用计数的方法是用来确定死对象，有一个引用就计数+1, 但这样效率低下，而且互相引用的情况下失效。 
+ * 另外一种方法： 从堆栈的引用开始查， 一层层查， 有活的就标记。  剩下，没有标记的，全是死对象 
+ * 
+ * Jvm采用的自适应的方式来清理内存死对象： 
+ * stop and copy:  停止复制 
+ * 暂停程序， 在带子里面找到相应的块， 如果这些块的死对象较多， 就把活对象考到其他空闲的块， 然后把死对象回收，标记这个块为空闲。 
+ * 采用块的目的在于，减少对象拷贝的次数， 比如，有些对象很大，占据了一个块，或者多个块， 那么这个对象是不需要被来回拷贝的。 
+ * stop and sweep: 停止清扫 
+ * 暂停程序， 找到死对象，清理掉。 但是不整理。   当确实很多碎片的时候，再启动stop and copy， 压缩，解放内存。
  * </pre>
  * 
  * 
@@ -51,42 +73,44 @@ package com.easyway.java.basic.jvm;
  */
 public class CodeChangeDemo {
 
-	private static boolean isChange = false;
+    private static boolean isChange = false;
 
-	private static class ChangeThread extends Thread {
-		public void run() {
-			System.out.println("ChangeThread start"); // 1
-			isChange = true; // 2
-		};
-	};
+    private static class ChangeThread extends Thread {
+        public void run() {
+            System.out.println("ChangeThread start"); // 1
+            isChange = true; // 2
+        };
+    };
 
-	private static class GetChangeThread extends Thread {
-		public void run() {
-			System.out.println("GetChangeThread start");
-			if (isChange) { // 3
-				isChange = false;
-				System.out.println("change success");
-			} else {
-				System.out.println("change no success");
-				System.exit(0);
-			}
-		};
-	};
+    private static class GetChangeThread extends Thread {
+        public void run() {
+            System.out.println("GetChangeThread start");
+            if (isChange) { // 3
+                isChange = false;
+                System.out.println("change success");
+            }
+            else {
+                System.out.println("change no success");
+                System.exit(0);
+            }
+        };
+    };
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		while (true) {
-			ChangeThread changeThread = new ChangeThread();
-			GetChangeThread getChangeThread = new GetChangeThread();
-			changeThread.start();
-			getChangeThread.start();
-			// 防止线程过多，等执行完上面俩线程再继续
-			while (Thread.activeCount() > 1) {
 
-			}
-		}
-	}
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        while (true) {
+            ChangeThread changeThread = new ChangeThread();
+            GetChangeThread getChangeThread = new GetChangeThread();
+            changeThread.start();
+            getChangeThread.start();
+            // 防止线程过多，等执行完上面俩线程再继续
+            while (Thread.activeCount() > 1) {
+
+            }
+        }
+    }
 
 }
