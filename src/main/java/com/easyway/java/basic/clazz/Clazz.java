@@ -29,21 +29,49 @@ package com.easyway.java.basic.clazz;
  * 
  */
 class A {
-	public A() {
-		System.out.print("2");
-	}
+    public A() {
+        System.out.println("2");
+    }
+    static int get() {
+        try {
+            return 1;
+        }
+        finally {
+            return 2;
+        }
+    }
+
+    static int test() {
+        int x = 1;
+        try {
+            return x;
+        }
+        finally {
+            ++x;
+        }
+    }
 
 }
+
 
 class B extends A {
-	public B() {
-		System.out.print("b");
-	}
+    public B() {
+        System.out.println(super.getClass().getName());
+        System.out.println(getClass().getSuperclass().getName());
+        System.out.println("b");
+    }
 }
 
+
 public class Clazz {
-	public static void main(String[] args) {
-		A a = new B();
-		a = new B();
-	}
+    public static void main(String[] args) {
+        A a = new B();
+        a = new B();
+        System.out.println();
+        String s = "a" + "b" + "c" + "d";
+        System.out.println(s == "abcd");
+        System.out.println(A.test());
+        System.out.println(A.get());
+
+    }
 }
