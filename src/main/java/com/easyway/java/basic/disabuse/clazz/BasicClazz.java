@@ -64,6 +64,17 @@ package com.easyway.java.basic.disabuse.clazz;
  *   4.执行完毕BasicClazz实例add（）方法，结束局部变量var3的生命周期，退回到main方法。
  *   5.执行完毕BasicClazz类的main方法，结束BasicClazz实例以及它的实例变量var1的生命周期，
  *   卸载BasicClazz类，结束静态变量var2的生命周期，java虚拟机运行结束。
+ *   
+ *   每当用java命令启动一个java虚拟机进程时，java虚拟机就会创建
+ *   一个主线程，该线程从程序入口main方法开始执行，主线程在java栈区内有一个方法调用栈，没执行一个方法，就会想方法调用栈中压入一个包含该方法的局部变量以及参数的栈帧。
+ *   
+ *   
+ *   即：静态常量和类信息位于方法区域。
+ *      实例变量位于堆区。
+ *      局部变量位于java栈区域，
+ *      
+ *      实例变量系统初始化会为它进行一些初始化动作。
+ *      局部变量生命之后，java虚拟机就不会自动给它初始化默认值。因此对于局部变量，必须先经过显示初始化，才能使用它。
  * </pre>
  * @author Administrator
  * @version 
@@ -75,6 +86,7 @@ public class BasicClazz {
     public static int number=0;//方法堆
     private int id=0;//堆区
     private String name="BasicClazz";//堆区 
+   
     
     int var1=1;//实例变量  //堆区
     static int var2=2;//静态变量
@@ -86,8 +98,83 @@ public class BasicClazz {
     }
     
     public int delete(){
-        int var4=var1-var2;
+        int var4=var1-var2;//局部变量
         return var4;
+    }
+    
+    public void bool(){
+        int output1=10;
+        int output2=10;
+        int output3=10;
+        int output4=10;
+        boolean b1=false;
+        boolean b2=true;
+        if((b1==true)&((output1+=10)==20)){
+            System.out.println("&   We are equal "+output1);
+        }else{
+            System.out.println("&  Not equal "+output1);
+        }
+        if((b2==true)|((output2+=10)==20)){
+            System.out.println(" | We are equal "+output2);
+        }else{
+            System.out.println("| Not equal "+output2);
+        }
+        if((b1==true)&&((output3+=10)==20)){
+            System.out.println("&&  We are equal "+output3);
+        }else{
+            System.out.println("&&  Not equal "+output3);
+        }
+        if((b2==true)||((output4+=10)==20)){
+            System.out.println(" || We are equal "+output4);
+        }else{
+            System.out.println("|| Not equal "+output4);
+        }
+    }
+    
+    
+    
+    public static int swap(byte b){
+        int lowBites=b & 0xF;//获取低4位
+        int highBites=b & 0xF0;//获取高4位
+        //把低4左移4位，变成高4位
+        //把高4位无符号右移4位，变成低4位
+        //再把两者进行位或
+        return   lowBites<<4| highBites>>>4;
+    }
+    /**
+     * 
+     * op:
+     * 在表达式i=x++中，先把x赋给i，再将x加1，在表达式j=++x中，先将x加1,再把x赋给j。
+     * 
+     * a+=b等价于 a=a+b
+     * a*=b等价于 a=a*b
+     * a/=b等价于 a=a/b
+     * a%=b等价于 a=a%b
+     *  <br/>
+     * @author Administrator
+     * @since JDK 1.6
+     */
+    public void op(){
+        byte a=1,b=2;
+        //byte c=a+b;//错误
+        int i=1, j=10,k=10,l=10 , m=10 ,n=10;
+        int x=0;
+        System.out.println("i="+i +"j ="+j +" k="+k +" l ="+l +" m="+m +" n="+n);
+         i=x++;//"++"作为为后置操作符，i的数值变为0，x的值变为1
+         j=++x;//"++"作为前置操作符号，x的数值变为2，j的值变为2;
+         
+         int c=a>b?++a:++b;
+         System.out.println("a="+a+" b="+b+" c="+c);
+         
+         Integer aa=new Integer(1);
+         Integer ab=new Integer(1);
+         System.out.println("aa=bb ? "+(aa==ab));
+         System.out.println("aa.equals(ab) ？ "+aa.equals(ab));
+         
+         Integer ac=Integer.valueOf(1);
+         Integer ad=Integer.valueOf(1);
+         System.out.println("ac=ad ? "+(ac==ad));
+         System.out.println("ac.equals(ad) ？ "+ac.equals(ad));
     }
     
     public static void main(String[] args) {
@@ -95,6 +182,8 @@ public class BasicClazz {
         //basicClazz存储在堆内
         BasicClazz basicClazz=new BasicClazz();
         basicClazz.add();
+        basicClazz.bool();
+        basicClazz.op();
     }
 
 }
