@@ -15,7 +15,9 @@ import java.io.PrintWriter;
 
 /**
  * ClassName:ExeChainExeception <br/>
- * Function: TODO ADD FUNCTION. <br/>
+ * Function: JDK1.4版本以上中Throwable类支持异常链机制，所谓的异常链就
+ * 是把原始异常包装为新的异常类，也就是说在新的异常类中封装了原始异常类，这有助于
+ * 查找产生异常的根本原因。 <br/>
  * Reason: TODO ADD REASON. <br/>
  * Date: 2015-3-17 下午1:56:42 <br/>
  * 
