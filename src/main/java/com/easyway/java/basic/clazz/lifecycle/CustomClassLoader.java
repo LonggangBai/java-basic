@@ -12,12 +12,23 @@ package com.easyway.java.basic.clazz.lifecycle;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 /**
- * ClassName:CustomClassLoader <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason:	 TODO ADD REASON. <br/>
- * Date:     2015-3-18 上午9:55:02 <br/>
+ * 
+ * 不同类加载器的命名控件存在以下关系
+ * 1.同一个命名空间的类是互相可见的。
+ * 2.子加载器的命名控件包含所有父类加载器的命名空间，因此由子加载器加载的类能砍价父类加载器加载的类。
+ * 例如系统类加载器的类能看见根类加载器加载的类。
+ * 3.由父加载器加载的类不能看见子加载器加载类。
+ * 4.如果两个加载器之间没有直接或者间接的父子关系，那么他们各自加载的类互不可见。
+ * 
+ * 
+ * 当两个不同命名空间内的类互相不可见时候，可采用java反射机制来访问对方实例的属性和方法。
+ * 
+ * 
  * @author   longgangbai
  * @version  
  * @since    JDK 1.6
@@ -47,6 +58,7 @@ public class CustomClassLoader  extends ClassLoader{
         byte[] data=null;
         ByteArrayOutputStream baos=null;
         try {
+            System.out.println("name="+name);
             //将.替换为\
             name=name.replace("\\.", "\\\\");
             fis=new FileInputStream(new File(path+name+fileType));
@@ -84,7 +96,25 @@ public class CustomClassLoader  extends ClassLoader{
         this.path = path;
     }
     
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, MalformedURLException {
+        CustomClassLoader loader0=new CustomClassLoader("loader0");
+        loader0.setPath("D:\\git\\repo\\java-basic\\target\\classes\\com\\easyway\\java\\basic\\collection\\");
+        String clazzName="com.easyway.java.basic.collection.RandomTest";
+        Class<?> objClass=loader0.loadClass(clazzName);
+        System.out.println("objClass's hashCode is "+objClass.hashCode());
+        Object obj=objClass.newInstance();
+        loader0=null;
+        objClass=null;
+        obj=null;
+        
+        
+        loader0=new CustomClassLoader("loader0");
+        loader0.setPath("D:\\git\\repo\\java-basic\\target\\classes\\com\\easyway\\java\\basic\\collection\\");
+        objClass=loader0.loadClass(clazzName);
+        System.out.println("objClass's hashCode is "+objClass.hashCode());
+        
+        
+        String className="com.easyway.java.basic.clazz.lifecycle.ClassA";
         CustomClassLoader loader1=new CustomClassLoader("loader1");
         loader1.setPath("D:\\git\\repo\\java-basic\\target\\classes\\com\\easyway\\java\\basic\\clazz\\lifecycle\\");
       
@@ -105,6 +135,8 @@ public class CustomClassLoader  extends ClassLoader{
         System.out.println("=================loader3=====================");
         test(loader3);
         System.out.println("==============================================");
+        
+        
     }
     
     public static void test(ClassLoader loader) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
