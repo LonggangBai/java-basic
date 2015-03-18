@@ -22,6 +22,19 @@ package com.easyway.java.basic.clazz.lifecycle;
  * 1.java虚拟机自带的加载器包括启动类加载器，扩展类加载器和系统类加载器。
  * 2.用户自定义的类加载器是java.lang.ClassLoader类的子类的实例，用户可以通过它来定制类的加载方式。
  * 
+ * 类加载器用来把类加载到java虚拟机中。从JDK1.2版本中开始，类的加载过程中采用父亲委托机制，这种机制能更好的保证java平台的安全。
+ * 
+ * java虚拟机自带的类加载器：
+ * 1.根类加载器：该加载器没有父类加载器。他负责加载虚拟机的核心类库。如java.lang.*等。
+ * java.lang.Object就是由根类加载器加载的。根类加载器从系统属性sun.boot.class.path
+ * 所制定的目录中加载类库。根类加载器的实现依赖底层操作系统。属于虚拟机的实现的一部分，他并没有
+ * 继承java.lang.ClassLoader类。
+ * 2.扩展类加载器：他的父类加载器为根类加载器，它从java.ext.dirs系统属性所指定的目录中加载类库，
+ * 或者从jdk的安装目录中jre/lib/ext子目录下加载类库。如果把用户创建的jar文件放在这个目录下，
+ * 也会自动由扩展类加载器加载。扩展类加载器是纯Java类， 是java.lang.ClassLoader类的子类。
+ * 3.系统类加载器，也称为应用类加载器，他的父类加载器为扩展类加载器。他从环境变量classpath
+ * 或者系统属性java.class.path所制定的目录中加载类。它是用户自动亿的类加载器的默认父加载器，
+ * 系统类加载器是纯java类，是java.lang.ClassLoader类的子类。
  * 
  * <br/>
  * Reason:	 TODO ADD REASON. <br/>
@@ -32,6 +45,29 @@ package com.easyway.java.basic.clazz.lifecycle;
  * @see 	 
  */
 public class ClazzLoader {
+    public static void main(String[] args) {
+        Class c;
+        ClassLoader c1,c11;
+        c1=ClassLoader.getSystemClassLoader();//获取系统加载器
+        System.out.println(c1);//系统加载器
+        while(c1!=null){
+            c11=c1;
+            c1=c1.getParent();
+            System.out.println(c11+"'s parent is "+c1);
+        }
+        try {
+            c=Class.forName("java.lang.Object");
+            c1=c.getClassLoader();
+            System.out.println("java.lang.object's loader is "+c1);
+            
+            c=Class.forName("com.easyway.java.basic.clazz.lifecycle.ClazzLoader");
+            c1=c.getClassLoader();
+            System.out.println("com.easyway.java.basic.clazz.lifecycle.ClazzLoader's loader is "+c1);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
