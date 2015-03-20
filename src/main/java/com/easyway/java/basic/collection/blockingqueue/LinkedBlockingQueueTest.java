@@ -86,7 +86,6 @@ public class LinkedBlockingQueueTest {
     }
     
     public static void main(String[] args) throws Throwable {
-        ConcurrentLinkedQueue  f;
         LinkedBlockingQueue<String> queue = new LinkedBlockingQueue<String>();
         Producer producer = new LinkedBlockingQueueTest().new Producer(queue);
         Consumer consumer = new LinkedBlockingQueueTest().new Consumer(queue);
