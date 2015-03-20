@@ -10,10 +10,39 @@
 package com.easyway.java.basic.collection.blockingqueue;
 
 /**
+ * 使用Java的BlockingQueue实现生产者-消费者 
+ * BlockingQueue也是java.util.concurrent下的主要用来控制线程同步的工具。
+ 
+BlockingQueue有四个具体的实现类,根据不同需求,选择不同的实现类
+1、ArrayBlockingQueue：一个由数组支持的有界阻塞队列，规定大小的BlockingQueue,其构造函数必须带一个
+int参数来指明其大小.其所含的对象是以FIFO(先入先出)顺序排序的。
+ 
+
+2、LinkedBlockingQueue：大小不定的BlockingQueue,若其构造函数带一个规定大小的参数,生成的
+BlockingQueue有大小限制,若不带大小参数,所生成的BlockingQueue的大小由Integer.MAX_VALUE
+来决定.其所含的对象是以FIFO(先入先出)顺序排序的。
+ 
+
+3、PriorityBlockingQueue：类似于LinkedBlockQueue,但其所含对象的排序不是FIFO,而是依据对象
+的自然排序顺序或者是构造函数的Comparator决定的顺序。
+ 
+
+4、SynchronousQueue：特殊的BlockingQueue,对其的操作必须是放和取交替完成的。
+ 
+ 
+ 
+LinkedBlockingQueue 可以指定容量，也可以不指定，不指定的话，默认最大是Integer.MAX_VALUE,其中
+主要用到put和take方法，put方法在队列满的时候会阻塞直到有队列成员被消费，take方法在队列空的时候会阻塞，
+直到有队列成员被放进来。
+ 
+ 
+
  * ClassName:TestProducer_Consumer <br/>
  * Function: TODO ADD FUNCTION. <br/>
- * Reason:	LinkedBlockingQueue实现是线程安全的，实现了FIFO（先进先出）等特性. 是作为生产者消费者的首选，LinkedBlockingQueue 可以指定容量，也可以不指定，不指定的话，
- * 默认最大是Integer.MAX_VALUE，其中主要用到put和take方法，put方法在队列满的时候会阻塞直到有队列成员被消费，take方法在队列空的时候会阻塞，直到有队列成员被放进来。
+ * Reason:	LinkedBlockingQueue实现是线程安全的，实现了FIFO（先进先出）等特性. 是作为生产者消费
+ * 者的首选，LinkedBlockingQueue 可以指定容量，也可以不指定，不指定的话，
+ * 默认最大是Integer.MAX_VALUE，其中主要用到put和take方法，put方法在队列满的时候会阻塞直到有队列
+ * 成员被消费，take方法在队列空的时候会阻塞，直到有队列成员被放进来。
 
  书本上的话不再重复, 还是看看实例代码.
 
