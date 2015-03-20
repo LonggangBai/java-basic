@@ -50,9 +50,9 @@ public class DelayQueueTest {
         BlockingQueue<Task> queue = new DelayQueue();
         // TODO Auto-generated method stub
         for (int i = 0; i < 10; i++)
-            new Thread(new ThreadProducer(queue)).start();
+            new Thread(new QThreadProducer(queue)).start();
         for (int i = 0; i < 10; i++)
-            new Thread(new ThreadConsumer(queue)).start();
+            new Thread(new QThreadConsumer(queue)).start();
     }
 }
 
@@ -90,8 +90,8 @@ class Task implements Delayed {
 }
 
 
-class ThreadProducer implements Runnable {
-    ThreadProducer(BlockingQueue<Task> queue) {
+class QThreadProducer implements Runnable {
+    QThreadProducer(BlockingQueue<Task> queue) {
         this.queue = queue;
     }
 
@@ -117,8 +117,8 @@ class ThreadProducer implements Runnable {
 }
 
 
-class ThreadConsumer implements Runnable {
-    ThreadConsumer(BlockingQueue<Task> queue) {
+class QThreadConsumer implements Runnable {
+    QThreadConsumer(BlockingQueue<Task> queue) {
         this.queue = queue;
     }
 
