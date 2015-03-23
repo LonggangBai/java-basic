@@ -10,7 +10,7 @@
 package com.easyway.java.basic.clazz.innerclazz;
 /**
  * ClassName:InnerInterface <br/>
- * Function: TODO ADD FUNCTION. <br/>
+ * Function:  <br/>
  * Reason:	 TODO ADD REASON. <br/>
  * Date:     2015-3-19 下午5:20:01 <br/>
  * @author   longgangbai
