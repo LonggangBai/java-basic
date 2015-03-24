@@ -4,6 +4,10 @@
 package com.easyway.java.basic.thread;
 
 /**
+ * java.lang.Object类中提供了两个用于线程通信的方法
+ * 1.wait：执行方法的线程释放对象的锁，java虚拟机把该线程放到该对象的等待池中，该线程等待其他线程将它唤醒。
+ * 2.notify：执行该方法的线程唤醒在对象的等待池中等待一个线程。java虚拟机从对象的等待池中随机选择一个线程，把它转到对象的锁池中。
+ * 3.notifyAll，该方法会把对象的等待池中所有的线程都转到对象的锁池中。
  * @author longgangbai 2015-1-20 下午4:36:12
  */
 public class ThreadDemo3 {
