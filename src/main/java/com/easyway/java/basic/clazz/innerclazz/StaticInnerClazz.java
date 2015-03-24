@@ -22,14 +22,14 @@ package com.easyway.java.basic.clazz.innerclazz;
  * @since JDK 1.6
  * @see
  */
-class A {
+class StaticInnerA {
     private int a1;
 
     private static int a2;
 
     public static class B {
         int b2 = a2;
-        int b3 = new A().a1;
+        int b3 = new StaticInnerA().a1;
         int v1;
         static int v2;
 
@@ -44,13 +44,13 @@ class A {
 public class StaticInnerClazz {
 
     public static void main(String[] args) {
-        A.B b = new A.B();
+        StaticInnerA.B b = new StaticInnerA.B();
         b.b2 = 1;
         b.v1 = 1;
         b.v2 = 1;
-        A.B.v2 = 1;
-        A.B.C.v3 = 1;
+        StaticInnerA.B.v2 = 1;
+        StaticInnerA.B.C.v3 = 1;
 
-        A.B.C c = new A.B.C();
+        StaticInnerA.B.C c = new StaticInnerA.B.C();
     }
 }
