@@ -9,6 +9,15 @@ package com.easyway.java.basic.threadlocal;
  * 　　为了说明多线程访问对于类变量和ThreadLocal变量的影响，QuerySvc中分别设置了类变量sql和ThreadLocal变量，使用时先创建 QuerySvc的一个实例对象，然后产生多个线程，分别设置不同的sql实例对象，然后再调用execute方法，读取sql的值，看是否是set方法中写入的值。这种场景类似web应用中多个请求线程携带不同查询条件对一个servlet实例的访问，然后servlet调用业务对象，并传入不同查询条件，最后要保证每个请求得到的结果是对应的查询条件的结果。 
  * 
  * 先创建一个QuerySvc实例对象，然后创建若干线程来调用QuerySvc的set和execute方法，每个线程传入的sql都不一样，从运行结果可以看出sql变量中值不能保证在execute中值和set设置的值一样，在 web应用中就表现为一个用户查询的结果不是自己的查询条件返回的结果，而是另一个用户查询条件的结果；而ThreadLocal中的值总是和set中设置的值一样，这样通过使用ThreadLocal获得了线程安全性。
+ * 
+ * java.lang.ThreadLocal 可用来存放线程的局部变量，每个线程都有单独的局部变量，彼此之间不会共享。
+ * ThreadLocal<T>类主要包括以下3个方法：
+ * public T get():返回当前线程的局部变量。
+ * protected T initialValue()：返回当前线程的局部变量的初始化。
+ * public void set(T value):设置当前线程的局部变量。
+ * 
+ * ThreadLocal是如何做到为每一个线程提供一个单独的局部变量的呢？
+ * 起始很简单，在ThreadLocal类中有一个Map缓存，用于存储每一个线程的局部变量。
  * </pre>
  * 
  * @author Administrator
