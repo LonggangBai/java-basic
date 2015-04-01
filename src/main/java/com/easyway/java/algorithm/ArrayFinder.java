@@ -34,16 +34,16 @@ public class ArrayFinder {
         int low=0;
         int high=array.length-1;
         int middle=-1;
-        while(low<high){
+        while(low<=high){
             middle=(low+high)/2;
             print(array,middle);
             if(array[middle]==value){
                 return middle;
             }
             if(value<array[middle]){
-                high=middle;
+                high=middle-1;
             }else{
-                low=middle;
+                low=middle+1;
             }
         }
         return middle;
