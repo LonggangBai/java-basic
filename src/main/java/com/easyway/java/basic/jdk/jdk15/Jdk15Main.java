@@ -120,12 +120,10 @@ public class Jdk15Main {
 		// 匿名类适合那些只需要使用一次的类
 		// 不仅可以使抽象类，也可以是接口。匿名类没有什么特别的地方，同样还是要实现需要实现的方法。
 		AnonymousClassDesk desk = new AnonymousClassDesk() {
-			@Override
 			public double getPrice() {
 				return 100;
 			}
 
-			@Override
 			public String getName() {
 				return "匿名书桌";
 			}

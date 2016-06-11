@@ -3,34 +3,28 @@ package com.easyway.java.basic.jdk.jdk15;
 public enum TrafficLampComplex {
 	// 元素列表必须放在枚举类的最上面
 	RED(10) {
-		@Override
 		public TrafficLampComplex nextLamp() {
 			return GREEN;
 		}
 
-		@Override
 		public String getValue() {
 			return "红灯，时长" + this.getTime();
 		}
 	},
 	GREEN(10) {
-		@Override
 		public TrafficLampComplex nextLamp() {
 			return YELLOW;
 		}
 
-		@Override
 		public String getValue() {
 			return "绿灯，时长" + this.getTime();
 		}
 	},
 	YELLOW(5) {
-		@Override
 		public TrafficLampComplex nextLamp() {
 			return YELLOW;
 		}
 
-		@Override
 		public String getValue() {
 			return "黄灯，时长" + this.getTime();
 		}
