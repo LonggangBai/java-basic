@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -10,13 +10,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.NotThreadSafe;
 
-/**
+*//**
  * UnsafeCachingFactorizer
  *
  * Servlet that attempts to cache its last result without adequate atomicity
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 
 @NotThreadSafe
 public class UnsafeCachingFactorizer extends GenericServlet implements Servlet {
@@ -50,3 +50,4 @@ public class UnsafeCachingFactorizer extends GenericServlet implements Servlet {
     }
 }
 
+*/

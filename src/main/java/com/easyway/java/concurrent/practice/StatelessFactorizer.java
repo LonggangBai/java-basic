@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -9,13 +9,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * StatelessFactorizer
  *
  * A stateless servlet
  * 
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @ThreadSafe
 public class StatelessFactorizer extends GenericServlet implements Servlet {
 
@@ -37,3 +37,4 @@ public class StatelessFactorizer extends GenericServlet implements Servlet {
         return new BigInteger[] { i };
     }
 }
+*/

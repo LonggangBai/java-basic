@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -10,13 +10,13 @@ import javax.servlet.ServletResponse;
 import com.easyway.java.concurrent.practice.annotations.GuardedBy;
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * SynchronizedFactorizer
  *
  * Servlet that caches last result, but with unnacceptably poor concurrency
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 
 @ThreadSafe
 public class SynchronizedFactorizer extends GenericServlet implements Servlet {
@@ -49,3 +49,4 @@ public class SynchronizedFactorizer extends GenericServlet implements Servlet {
     }
 }
 
+*/

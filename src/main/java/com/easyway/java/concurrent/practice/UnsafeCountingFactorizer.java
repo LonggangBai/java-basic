@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -9,13 +9,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.NotThreadSafe;
 
-/**
+*//**
  * UnsafeCountingFactorizer
  *
  * Servlet that counts requests without the necessary synchronization
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @NotThreadSafe
 public class UnsafeCountingFactorizer extends GenericServlet implements Servlet {
     private long count = 0;
@@ -43,3 +43,4 @@ public class UnsafeCountingFactorizer extends GenericServlet implements Servlet 
         return new BigInteger[] { i };
     }
 }
+*/

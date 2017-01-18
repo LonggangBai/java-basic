@@ -1,4 +1,4 @@
-package com.easyway.java.basic.jdk.jdk15;
+/*package com.easyway.java.basic.jdk.jdk15;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -6,7 +6,7 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+*//**
  * <pre>
  * JDK各个版本的新特性  
  * 对于很多刚接触java语言的初学者来说，要了解一门语言，最好的方式就是要能从基础的版本进行了解，升级的过程，以及升级的新特性，这样才能循序渐进的
@@ -114,7 +114,7 @@ import java.util.List;
  * 
  * @author Administrator
  * 
- */
+ *//*
 public class Jdk15Main {
 	public static void main(String args) {
 		// 匿名类适合那些只需要使用一次的类
@@ -136,14 +136,14 @@ public class Jdk15Main {
 		System.out.print(min(3, 6));
 	}
 
-	/**
+	*//**
 	 * Java类型后面三个点如(String... strs)是从Java1.5开始对方法参数支持一种新写法，
 	 * 叫可变长度参数列表，其语法就是类型后跟三个点，表示此处接受的参数为0到多个Object类型的对象或者是一个Object[]。 三 注意点
 	 * 
 	 * 值得注意的是动态参数列表必须放在方法签名的最后一个
 	 * 
 	 * @param strings
-	 */
+	 *//*
 	public static void testVarchar(String... strings) {
 		for (int i = 0; i < strings.length; i++) {
 			System.out.print(strings[i]);
@@ -151,9 +151,9 @@ public class Jdk15Main {
 		System.out.print("\n");
 	}
 
-	/**
+	*//**
 	 * jdk1.5新特性3之加强for循环
-	 */
+	 *//*
 	public static void testFor() {
 		List<String> lst = new ArrayList<String>();
 		lst.add("aaa");
@@ -170,11 +170,11 @@ public class Jdk15Main {
 		}
 	}
 
-	/**
+	*//**
 	 * 
 	 * 
 
-	 */
+	 *//*
 	public void dd() {
 		Integer a = new Integer(100);
 		Integer b = new Integer(100);
@@ -191,3 +191,4 @@ abstract class AnonymousClassDesk {
 
 	public abstract String getName();
 }
+*/

@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -10,13 +10,13 @@ import javax.servlet.ServletResponse;
 import com.easyway.java.concurrent.practice.annotations.GuardedBy;
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * CachedFactorizer
  * <p/>
  * Servlet that caches its last request and result
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @ThreadSafe
 public class CachedFactorizer extends GenericServlet implements Servlet {
     @GuardedBy("this") private BigInteger lastNumber;
@@ -64,3 +64,4 @@ public class CachedFactorizer extends GenericServlet implements Servlet {
         return new BigInteger[]{i};
     }
 }
+*/

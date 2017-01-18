@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -10,13 +10,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * CountingFactorizer
  *
  * Servlet that counts requests using AtomicLong
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @ThreadSafe
 public class CountingFactorizer extends GenericServlet implements Servlet {
     private final AtomicLong count = new AtomicLong(0);
@@ -34,3 +34,4 @@ public class CountingFactorizer extends GenericServlet implements Servlet {
     BigInteger extractFromRequest(ServletRequest req) {return null; }
     BigInteger[] factor(BigInteger i) { return null; }
 }
+*/

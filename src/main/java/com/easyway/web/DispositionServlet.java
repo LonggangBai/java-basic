@@ -1,4 +1,4 @@
-package com.easyway.web;
+/*package com.easyway.web;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -14,36 +14,36 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-/**
+*//**
  * 
  * @author Administrator
  *
- */
+ *//*
 public class DispositionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static Logger log = LoggerFactory
 			.getLogger(DispositionServlet.class);
 
-	/**
+	*//**
 	 * @see HttpServlet#HttpServlet()
-	 */
+	 *//*
 	public DispositionServlet() {
 		super();
 	}
 
-	/**
+	*//**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */
+	 *//*
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
-	/**
+	*//**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */
+	 *//*
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String filepath = request.getSession().getServletContext()
@@ -93,3 +93,4 @@ public class DispositionServlet extends HttpServlet {
 	}
 
 }
+*/
