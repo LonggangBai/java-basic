@@ -1,4 +1,4 @@
-package com.easyway.java.basic.threadlocal;
+package com.easyway.java.basic.thread.future;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
