@@ -91,6 +91,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class AtomicTest {
 
     public void testAtomic() {
+    
         final int loopcount = 10000;
         int threadcount = 10;
 
