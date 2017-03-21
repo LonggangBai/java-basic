@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 
 /**
  * Requst转换为JavaBean的方式
@@ -48,29 +48,29 @@ public class RequestToBean {
      *            要设置Bean的类型,传入试为: Bean.class
      * @return
      */
-    @SuppressWarnings("unchecked")
-    public static <T> T getBeanToRequest(HttpServletRequest request, Class<T> clazz) {
-
-	// 获取页面所有的请求参数名称
-	Enumeration<String> enume = request.getParameterNames();
-	T beanObj = getObjectByClass(clazz);
-	try {
-	    while (enume.hasMoreElements()) {
-		// 参数名称
-		String propertyName = enume.nextElement();
-		// 判断是否存在此属性
-		if (isCheckBeanExitsPropertyName(clazz, propertyName)) {
-		    // 获取请求值
-		    Object propertyValue = request.getParameter(propertyName);
-		    setProperties(beanObj, propertyName, propertyValue);
-		}
-
-	    }
-	} catch (Exception e) {
-	}
-
-	return beanObj;
-    }
+//    @SuppressWarnings("unchecked")
+//    public static <T> T getBeanToRequest(HttpServletRequest request, Class<T> clazz) {
+//
+//	// 获取页面所有的请求参数名称
+//	Enumeration<String> enume = request.getParameterNames();
+//	T beanObj = getObjectByClass(clazz);
+//	try {
+//	    while (enume.hasMoreElements()) {
+//		// 参数名称
+//		String propertyName = enume.nextElement();
+//		// 判断是否存在此属性
+//		if (isCheckBeanExitsPropertyName(clazz, propertyName)) {
+//		    // 获取请求值
+//		    Object propertyValue = request.getParameter(propertyName);
+//		    setProperties(beanObj, propertyName, propertyValue);
+//		}
+//
+//	    }
+//	} catch (Exception e) {
+//	}
+//
+//	return beanObj;
+//    }
 
     private static <T> T getObjectByClass(Class<T> clazz) {
 	T t = null;

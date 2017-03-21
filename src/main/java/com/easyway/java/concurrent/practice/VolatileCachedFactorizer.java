@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -9,13 +9,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * VolatileCachedFactorizer
  * <p/>
  * Caching the last result using a volatile reference to an immutable holder object
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @ThreadSafe
 public class VolatileCachedFactorizer extends GenericServlet implements Servlet {
     private volatile OneValueCache cache = new OneValueCache(null, null);
@@ -43,3 +43,4 @@ public class VolatileCachedFactorizer extends GenericServlet implements Servlet 
     }
 }
 
+*/

@@ -1,4 +1,4 @@
-package com.easyway.java.concurrent.practice;
+/*package com.easyway.java.concurrent.practice;
 
 import java.math.BigInteger;
 
@@ -9,13 +9,13 @@ import javax.servlet.ServletResponse;
 
 import com.easyway.java.concurrent.practice.annotations.ThreadSafe;
 
-/**
+*//**
  * Factorizer
  * <p/>
  * Factorizing servlet that caches results using Memoizer
  *
  * @author Brian Goetz and Tim Peierls
- */
+ *//*
 @ThreadSafe
 public class Factorizer extends GenericServlet implements Servlet {
     private final Computable<BigInteger, BigInteger[]> c =
@@ -54,3 +54,4 @@ public class Factorizer extends GenericServlet implements Servlet {
         return new BigInteger[]{i};
     }
 }
+*/
