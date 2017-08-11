@@ -2,6 +2,9 @@ package com.easyway.java.algorithm.sort;
 
 
 /**
+ * 希尔排序（插入排序-渐减增量排序diminishing increment sort）： 
+思想：1.将原始数组按照增量分解为多个数组，分别按插入排序调好子序列的顺序； 
+2. 减小增量，重复第一步，直至增量为1。
  * @author treeroot
  * @since 2006-2-2
  * @version 1.0

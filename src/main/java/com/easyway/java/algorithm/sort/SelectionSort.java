@@ -1,6 +1,7 @@
 package com.easyway.java.algorithm.sort;
 
 /**
+ * 简单选择排序：每次选择一个当前最小的数字放在最终位置上。
  * @author treeroot
  * @since 2006-2-2
  * @version 1.0
