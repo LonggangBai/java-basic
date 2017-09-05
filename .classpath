@@ -28,8 +28,8 @@
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.6.4/slf4j-simple-1.6.4.jar" sourcepath="M2_REPO/org/slf4j/slf4j-simple/1.6.4/slf4j-simple-1.6.4-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/json/json/20090211/json-20090211.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/17.0/guava-17.0.jar" sourcepath="M2_REPO/com/google/guava/guava/17.0/guava-17.0-sources.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-bootstrap-jdk5/17.0/guava-bootstrap-jdk5-17.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-concurrent/r03/guava-concurrent-r03.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-bootstrap-jdk5/17.0/guava-bootstrap-jdk5-17.0.jar" sourcepath="SOURCE_ATTACHER/guava-bootstrap-jdk5-17.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-concurrent/r03/guava-concurrent-r03.jar" sourcepath="SOURCE_ATTACHER/guava-concurrent-r03-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-annotations/r03/guava-annotations-r03.jar" sourcepath="M2_REPO/com/google/guava/guava-annotations/r03/guava-annotations-r03-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-collections/r03/guava-collections-r03.jar" sourcepath="M2_REPO/com/google/guava/guava-collections/r03/guava-collections-r03-sources.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-primitives/r03/guava-primitives-r03.jar" sourcepath="M2_REPO/com/google/guava/guava-primitives/r03/guava-primitives-r03-sources.jar"/>
