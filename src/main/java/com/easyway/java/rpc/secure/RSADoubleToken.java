@@ -1,10 +1,10 @@
 package com.easyway.java.rpc.secure;
 
-import java.io.UnsupportedEncodingException;
+
 import java.util.Map;
 
 public class RSADoubleToken {
-
+    public static final String CHAR_ENCODING = "utf-8";
     /**
      *
      /**
@@ -23,113 +23,36 @@ public class RSADoubleToken {
      * 7、客户端、服务器端通过RSA加密数据进行交互
      */
     public static void main(String[] args) throws Exception {
-        //第一步建立连接
-        Client client=new Client();
-        Server server=new Server();
+        //建立客户端和服务端连接
+        //java公钥加密 私钥解密
         //客户端
-        String cpublickey=client.getCpublicKey();
+        RSACoderHelper clientrsa = RSACoderHelper.getInstance();
+        Map clientMap = clientrsa.initKey();
+        String cpublickey = clientrsa.getStringPublicKey(clientMap);
+        System.out.println("客户端公钥为:"+cpublickey);
+        String cprivatekey = clientrsa.getStringPrivateKey(clientMap);
+        System.out.println("客户端私钥为:"+cprivatekey);
+
         //服务端
-        String spublickey=server.getSpublicKey();
-        String encrySpublicKey=server.encryptByPublicKey(spublickey,cpublickey);
+        RSACoderHelper serverrsa = RSACoderHelper.getInstance();
+        Map serverMap = serverrsa.initKey();
+        String publickey = serverrsa.getStringPublicKey(serverMap);
+        System.out.println("服务端公钥为:"+publickey);
+        String privatekey = serverrsa.getStringPrivateKey(serverMap);
+        System.out.println("服务端私钥为:"+privatekey);
+        String inputstr= StringUtils.getRandomNumAndStr(8);
+        byte [] istr = inputstr.getBytes(CHAR_ENCODING);
+        System.out.println("服务端原文:"+inputstr);
+        //将服务端公钥用客户端公钥加密
+        String miwen = serverrsa.encryptByPublicKeyString(inputstr, cpublickey);
+        System.out.println("服务端密文为:"+miwen);
+
         //客户端
-        String cprivatekey=client.getCpriveKey();
-        String cspublickey=client.decryptByPrivateKey(encrySpublicKey,cprivatekey);
-        String encrptyKey=client.encryptRandom(client.getRandomKey(), cspublickey);
-        //服务单
-        String decryptValue=server.encryptByPublicKey(encrptyKey,spublickey);
-
-        System.out.print("Server:"+decryptValue);
-
-
+        String clientYuanWen=clientrsa.decryptByPrivateKey(miwen,cprivatekey);
+        System.out.println("客户端解密为:"+clientYuanWen);
 
     }
 
 
-    static class Client{
-        private static  RSACoderHelper  rsaCoderHelper=new RSACoderHelper();
-       // private static  DESCoderHelper  descCoderHelper=new DESCoderHelper();
-        private String cpublicKey;
-        private String cpriveKey;
-        private String spublickey;
-        private String saltKey="abcdefgh";
-        private String randomKey;
 
-
-
-
-        public Client() throws Exception {
-            Map map = rsaCoderHelper.initKey();
-            cpublicKey = rsaCoderHelper.getStringPublicKey(map);
-            cpriveKey = rsaCoderHelper.getStringPrivateKey(map);
-    //		System.out.println("公钥为:"+cpublicKey);
-
-        }
-
-
-        public String getRandomKey() throws Exception {
-            return StringUtils.getRandomNumAndStr(8);
-        }
-
-        public String encryptRandom(String data,String key) throws Exception {
-            return rsaCoderHelper.encryptByPublicKeyString(data,key);
-        }
-
-        public String getCpublicKey(){
-            return cpublicKey;
-        }
-        public String getCpriveKey(){
-            return cpriveKey;
-        }
-
-        /**
-         *
-         * @param data
-         * @param key
-         * @return
-         * @throws Exception
-         */
-        public String decryptByPrivateKey(String data,String key) throws Exception {
-           return rsaCoderHelper.decryptByPrivateKey(data,key);
-        }
-
-
-
-
-    }
-    static class Server{
-        private static  RSACoderHelper  rsaCoderHelper=new RSACoderHelper();
-        private static  DESCoderHelper  descCoderHelper=new DESCoderHelper();
-        private String spublicKey;
-        private String spriveKey;
-        private String cpublicKey;
-        private String saltKey="abcdefgh";
-        private String randomKey;
-        private String randomValue=null;
-        public Server() throws Exception {
-            Map map = rsaCoderHelper.initKey();
-            spublicKey = rsaCoderHelper.getStringPublicKey(map);
-            spriveKey = rsaCoderHelper.getStringPrivateKey(map);
-            //		System.out.println("公钥为:"+cpublicKey);
-        }
-        public String getSpublicKey(){
-            return spublicKey;
-        }
-
-        /**
-         *
-         * @param data
-         * @param key
-         * @return
-         * @throws Exception
-         */
-        public String  encryptByPublicKey(String data,String key) throws Exception {
-            cpublicKey= rsaCoderHelper.encryptByPublicKeyString(data,key);
-            return cpublicKey;
-        }
-        public String decryptRandomByPublicKey(String data,String key) throws Exception {
-            return rsaCoderHelper.encryptByPublicKeyString(data,key);
-        }
-
-
-    }
 }
