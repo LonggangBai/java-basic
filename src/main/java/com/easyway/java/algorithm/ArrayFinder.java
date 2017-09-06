@@ -10,8 +10,6 @@
 package com.easyway.java.algorithm;
 /**
  * ClassName:ArrayFinder <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason:	 TODO ADD REASON. <br/>
  * Date:     2015-3-24 下午2:33:06 <br/>
  * @author   longgangbai
  * @version  

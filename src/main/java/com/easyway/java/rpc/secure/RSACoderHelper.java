@@ -32,6 +32,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
+import com.easyway.java.rpc.secure.CharEncoding.*;
 
 /**
  * RSACoderHelper
@@ -42,13 +43,13 @@ public class RSACoderHelper {
 	public static final String KEY_ALGORITHM = "RSA";
 	public static final String PUBLIC_KEY = "RSAPublicKey";
 	public static final String PRIVATE_KEY = "RSAPrivateKey";
-	//public static final String CHAR_ENCODING = "utf-8";
+	public static final String CHAR_ENCODING = "utf-8";
 	/*RSA密钥长度 必须为64的倍数 默认为1024*/
 	private static int KEY_SIZE = 1024;
 	
 	/**
 	 * 获取实例
-	 * @param 密钥长度(默认为1024)
+//	 * @param 密钥长度(默认为1024)
 	 * @return
 	 * @throws Exception
 	 */
@@ -302,7 +303,7 @@ public class RSACoderHelper {
 	
     /**
 	 * java 私钥转换为c#私钥
-	 * @param encodedPrivkey java私钥
+	 * @param  encodedPrivatekey
 	 * @return
 	 */
     public String getRSAPrivateKeyAsNetFormat(String encodedPrivatekey){
@@ -366,7 +367,7 @@ public class RSACoderHelper {
 	
 	/**
 	 * 获取私钥 RSAPrivateCrtKey
-	 * @param key私钥
+	 * @param key
 	 * @return RSAPrivateCrtKey
 	 * @throws Exception
 	 */
@@ -422,18 +423,18 @@ public class RSACoderHelper {
 	public static void main(String []args) throws Exception{
 		RSACoderHelper rsa = RSACoderHelper.getInstance();
 		//java公钥加密 私钥解密 S--------------------------------------------------------------------------
-//		String inputstr = "58 同城一个神奇的网站 oh good!";
-//		System.out.println("原文为:"+inputstr);
-//		byte []istr = inputstr.getBytes(CHAR_ENCODING);
-//		Map map = rsa.initKey();
-//		String publickey = rsa.getStringPublicKey(map);
-//		System.out.println("公钥为:"+publickey);
-//		String privatekey = rsa.getStringPrivateKey(map);
-//		System.out.println("私钥为:"+privatekey);
-//		String miwen = rsa.encryptByPublicKeyString(inputstr, publickey);
-//		System.out.println("密文为:"+miwen);
-//		String yuanwen = rsa.decryptByPrivateKey(miwen, privatekey);
-//		System.out.println("原文为:"+yuanwen);
+		String inputstr = "58 同城一个神奇的网站 oh good!";
+		System.out.println("原文为:"+inputstr);
+		byte []istr = inputstr.getBytes(CHAR_ENCODING);
+		Map map = rsa.initKey();
+		String publickey = rsa.getStringPublicKey(map);
+		System.out.println("公钥为:"+publickey);
+		String privatekey = rsa.getStringPrivateKey(map);
+		System.out.println("私钥为:"+privatekey);
+		String miwen = rsa.encryptByPublicKeyString(inputstr, publickey);
+		System.out.println("密文为:"+miwen);
+		String yuanwen = rsa.decryptByPrivateKey(miwen, privatekey);
+		System.out.println("原文为:"+yuanwen);
 		//java公钥加密 私钥解密 E--------------------------------------------------------------------------
 		
 		//java私钥加密 公钥解密 S--------------------------------------------------------------------------

@@ -11,8 +11,6 @@ package com.easyway.java.algorithm;
 
 /**
  * ClassName:ArraySorter <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason: TODO ADD REASON. <br/>
  * Date: 2015-3-24 下午2:23:56 <br/>
  * 
  * @author longgangbai
