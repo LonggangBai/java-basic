@@ -321,4 +321,22 @@ public class Encodes {
 		}
 		return buf.toString();
 	}
+
+	public static void main(String[] args) throws Exception {
+		try {
+			String ss="中国人民";
+			String aa=new String(ss.getBytes(),"UTF-8");
+
+			String mm=new String(aa.getBytes("GBK"));
+
+			String str= Encodes.encode(mm);
+
+			System.out.println("strtrim ="+str);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
+	}
+
+
 }
