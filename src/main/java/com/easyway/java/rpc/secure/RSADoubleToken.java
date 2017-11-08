@@ -86,6 +86,7 @@ public class RSADoubleToken {
     public static void dd()throws Exception{
         //客户端/服务端约定
         RSACoderHelper serverrsa = RSACoderHelper.getInstance();
+        DESCoderHelper desCoderHelper=new DESCoderHelper();
         Map serverMap = serverrsa.initKey();
         String cpublickey = serverrsa.getStringPublicKey(serverMap);
         System.out.println("服务端公钥为:"+cpublickey);
@@ -96,16 +97,22 @@ public class RSADoubleToken {
         //客户端
         String clientKey= StringUtils.getRandomNumAndStr(8);
         System.out.println("客户端KEY为:"+clientKey);
-        byte [] istr = clientKey.getBytes(CHAR_ENCODING);
-        String msecret=new String(Base64.decodeBase64(istr),CHAR_ENCODING);
+
+        String request="请求信息";
+        byte [] requestStr = request.getBytes(CHAR_ENCODING);
+
+        String msecret=new String(desCoderHelper.decrypt(requestStr, clientKey.getBytes()));
+                //Base64.decodeBase64(istr),CHAR_ENCODING);
+
         String keysecret = serverrsa.encryptByPublicKeyString(clientKey, cpublickey);
         System.out.println("客户端端msecret密文为:"+msecret);
         System.out.println("客户端端keysecret密文为:"+keysecret);
 
         //服务端
         String serverkey=serverrsa.decryptByPrivateKey(keysecret,cprivatekey);
-        System.out.println("服务端KEY为:"+serverkey);
-        System.out.println("服务端KEY为:"+serverkey);
+        System.out.println("客户端请求KEY为:"+serverkey);
+        String srequest=desCoderHelper.decryptNetString(msecret,serverkey);
+        System.out.println("客户端请求信息为:"+srequest);
 
 
 

@@ -324,14 +324,23 @@ public class Encodes {
 
 	public static void main(String[] args) throws Exception {
 		try {
-			String ss="中国人民";
-			String aa=new String(ss.getBytes(),"UTF-8");
+//			String ss="中国人民";
+//			String mm=new String(ss.getBytes("GBK"),"GBK");
+//
+//			String str= Encodes.encode(mm);
+//
+//			System.out.println("strtrim ="+str);
+//			String decode=new String(str.getBytes(),"UTF-8");
+//			System.out.println("jiemi strtrim ="+Encodes.decode(decode));
 
-			String mm=new String(aa.getBytes("GBK"));
+//			String ssa="R1A/Ry";
+//			String sms=new String (ssa.getBytes("GBK"),"UTF-8");
+//			System.out.println("jiemi strtrim ="+Encodes.decode(sms));
 
-			String str= Encodes.encode(mm);
+			String str="3vE9sulNy/I7uttPwhtQuNV1yg1S7O8y";
 
-			System.out.println("strtrim ="+str);
+
+			System.out.println("strtrim ="+Encodes.decode(str));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
