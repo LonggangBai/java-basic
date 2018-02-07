@@ -70,7 +70,7 @@ public class RSADoubleToken {
 
      }
     public static void main(String[] args) throws Exception {
-      dd();
+        onePersonOneKey();
 
     }
 
