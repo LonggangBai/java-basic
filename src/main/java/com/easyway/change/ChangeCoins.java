@@ -123,42 +123,129 @@ import java.util.Map;
  * </pre>
  */
 public class ChangeCoins {
-    public static void changeCoins(int[] coins,int money) {
+
+
+    /*
+     *
+     * @param coinsValues 可用来找零的硬币 coinsValues.length是硬币的种类
+     * @param n 待找的零钱
+     * @return 最少硬币数目
+     */
+    public static void charge(int[] coinsValues, int n) {
+        int[][] c = new int[coinsValues.length + 1][n + 1];
+
+        // 初始化边界条件
+        for (int i = 0; i <= coinsValues.length; i++) {
+            c[i][0] = 0;
+        }
+        for (int i = 0; i <= n; i++) {
+            c[0][i] = Integer.MAX_VALUE;
+        }
+
+        for (int i = 1; i <= coinsValues.length; i++) { //i表示参加找零的硬币的种类1~i种硬币
+            for (int j = 1; j <= n; j++) {//j表示需要找零的钱数
+                if (j < coinsValues[i - 1]) {
+                    c[i][j] = c[i - 1][j];
+                    continue;
+                }
+
+                //每个问题的选择数目---选其中较小的
+                if (c[i - 1][j] < (c[i][j - coinsValues[i - 1]] + 1)) {
+                    c[i][j] = c[i - 1][j];
+                } else {
+                    c[i][j] = c[i][j - coinsValues[i - 1]] + 1;
+                }
+            }
+        }
+
+        int minCount= c[coinsValues.length][n];
+        System.out.println("面值为的最小硬币数 : " + minCount );
+    }
+
+
+    /**
+     * <pre>
+     *     动态规划的基本思想是将待求解问题分解成若干个子问题，先求解子问题，并将这些子问题的解保存起来，如果以后在求解较大子问题的时候需要用到这些子问题的解，就可以直接取出这些已经计算过的解而免去重复运算。保存子问题的解可以使用填表方式，例如保存在数组中。
+     *
+     *
+     * 用一个实际例子来体现动态规划的算法思想——硬币找零问题。
+     *
+     * 问题描述:
+     *
+     * 假设有几种硬币，并且数量无限。请找出能够组成某个数目的找零所使用最少的硬币数。例如几种硬币为[1, 3, 5], 面值2的最少硬币数为2(1, 1), 面值4的最少硬币数为2(1, 3), 面值11的最少硬币数为3(5, 5, 1或者5, 3, 3).
+     *
+     * 问题分析:
+     *
+     * 假设不同的几组硬币为数组coin[0, ..., n-1]. 则求面值k的最少硬币数count(k), 那么count函数和硬币数组coin满足这样一个条件:
+     *
+     * count(k) = min(count(k - coin[0]), ..., count(k - coin[n - 1])) + 1;
+     * 并且在符合条件k - coin[i] >= 0 && k - coin[i] < k的情况下, 前面的公式才成立.
+     * 因为k - coin[i] < k的缘故, 那么在求count(k)时, 必须满足count(i)(i <- [0, k-1])已知, 所以这里又涉及到回溯的问题.
+     *
+     * 所以我们可以创建一个矩阵matrix[k + 1][coin.length + 1], 使matrix[0][j]全部初始化为0值, 而在matrix[i][coin.length]保存面值为i的最少硬币数.
+     *
+     * </pre>
+     *
+     * @param coins
+     * @param k
+     * @return
+     */
+    public static int backTrackingCoin(int[] coins, int k) {//回溯法+动态规划
+        if (coins == null || coins.length == 0 || k < 1) {
+            return 0;
+        }
+        int[][] matrix = new int[k + 1][coins.length + 1];
+        for (int i = 1; i <= k; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                int preK = i - coins[j];
+                if (preK > -1) {//只有在不小于0时, preK才能存在于数组matrix中, 才能够进行回溯.
+                    matrix[i][j] = matrix[preK][coins.length] + 1;//面值i在进行回溯
+                    if (matrix[i][coins.length] == 0 || matrix[i][j] < matrix[i][coins.length]) {//如果当前的硬币数目是最少的, 更新min列的最少硬币数目
+                        matrix[i][coins.length] = matrix[i][j];
+                    }
+                }
+            }
+        }
+        return matrix[k][coins.length];
+    }
+
+
+    public static void changeCoins(int[] coins, int money) {
         /*保存面值为i的纸币找零所需的最小硬币数*/
-        int [] coinsUsed = new int [money+1];
+        int[] coinsUsed = new int[money + 1];
         /*硬币种类数量*/
         int valueKinds = coins.length;
         /*0元的最优解*/
         coinsUsed[0] = 0;
 
-        Map<Integer, HashMap<Integer,Integer>> coinChangeMap = new HashMap<Integer,HashMap<Integer,Integer>>();
+        Map<Integer, HashMap<Integer, Integer>> coinChangeMap = new HashMap<Integer, HashMap<Integer, Integer>>();
 
         /*从1 - money先求子问题的最优解*/
-        for(int cents = 1;cents<=money;cents++) {
+        for (int cents = 1; cents <= money; cents++) {
             /*当用最小币值的硬币找零时，所需硬币数量最多*/
             int minCount = cents;
             /*保存各个面值的具体找零方案*/
-            HashMap<Integer,Integer> minCoinMap = new HashMap<Integer,Integer>();
+            HashMap<Integer, Integer> minCoinMap = new HashMap<Integer, Integer>();
             /*遍历每一种面值的硬币，看是否可作为找零的其中之一*/
-            for(int kind =0;kind<valueKinds;kind++) {
+            for (int kind = 0; kind < valueKinds; kind++) {
                 /*当前面值*/
                 int coinVal = coins[kind];
                 int oppCoinVal = cents - coinVal;
                 /*若当前面值的硬币小于当前的cents则分解问题并查表*/
-                if(coinVal <=cents) {
-                    int tempCount = coinsUsed[oppCoinVal]+1;
-                    if(tempCount<=minCount) {
+                if (coinVal <= cents) {
+                    int tempCount = coinsUsed[oppCoinVal] + 1;
+                    if (tempCount <= minCount) {
                         /*子问题的最优解*/
-                        HashMap<Integer,Integer> subMap = coinChangeMap.get(oppCoinVal);
-                        HashMap<Integer,Integer> tmpMap = new HashMap<Integer,Integer>();
-                        if(subMap!=null) {
+                        HashMap<Integer, Integer> subMap = coinChangeMap.get(oppCoinVal);
+                        HashMap<Integer, Integer> tmpMap = new HashMap<Integer, Integer>();
+                        if (subMap != null) {
                             /*取到了子问题的最优解*/
                             tmpMap.putAll(subMap);
                         }
                         /*子问题的最优解+剩下面值 ->整个问题的最优解决*/
-                        if(tmpMap.containsKey(coinVal)) {
-                            tmpMap.put(coinVal, subMap.get(coinVal)+1);
-                        }else {
+                        if (tmpMap.containsKey(coinVal)) {
+                            tmpMap.put(coinVal, subMap.get(coinVal) + 1);
+                        } else {
                             tmpMap.put(coinVal, 1);
                         }
                         minCount = tempCount;
@@ -170,17 +257,17 @@ public class ChangeCoins {
             coinsUsed[cents] = minCount;
             coinChangeMap.put(cents, minCoinMap);
             //getArrayItem(coinsUsed);
-            System.out.println("面值为 " + (cents) + " 的最小硬币数 : "   + minCount+",货币为"+ minCoinMap);
+            System.out.println("面值为 " + (cents) + " 的最小硬币数 : " + minCount + ",货币为" + minCoinMap);
         }
     }
 
     public static void main(String[] args) {
         // 硬币面值预先已经按降序排列
-        int[] coinValue = new int[] { 50, 20, 11, 5, 2,1 };
+        int[] coinValue = new int[]{1, 2, 10};
         // 需要找零的面值
         int money = 23;
         // 保存每一个面值找零所需的最小硬币数，0号单元舍弃不用，所以要多加1
-        changeCoins(coinValue,  money);
+        charge(coinValue, money);
     }
 
 }
