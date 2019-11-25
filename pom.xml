@@ -29,6 +29,12 @@
             <artifactId>freetts</artifactId>
             <version>1.2.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-all</artifactId>-->
+            <!--<version>4.1.39.Final</version>-->
+        <!--</dependency>-->
 
         <!--百度语音播报sdk-->
         <dependency>
