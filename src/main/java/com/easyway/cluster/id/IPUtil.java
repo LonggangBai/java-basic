@@ -44,6 +44,14 @@ public class IPUtil {
         return sb.toString();
     }
 
+    public static long getIpAddr2Long()throws UnknownHostException{
+        InetAddress add = InetAddress.getLocalHost();
+        //.getByName("10.123.96.102");
+        System.out.println(add.getHostAddress()+" "+add.getHostName());
+        Long ipnum=ipToLong(add.getHostAddress());
+        return ipnum;
+    }
+
     public static void main(String[] args) throws UnknownHostException {
         InetAddress add = InetAddress.getLocalHost();
         //.getByName("10.123.96.102");
